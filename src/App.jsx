@@ -10,11 +10,15 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import BackendTest from './pages/BackendTest';
+import PetProvider from './context/PetContext';
+import ListPet from './pages/ListPet';
+import Adoption from './pages/Adoption';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
+        <PetProvider>
         <Routes>
           {/* Rutas Públicas */}
           <Route path="/" element={<Home />} />
@@ -31,10 +35,29 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/ListPet"
+            element={
+              <PrivateRoute>
+                <ListPet />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+          path= "/solicitud- Adopcione"
+          element = {
+           <PrivateRoute>
+            <Adoption/>
+           </PrivateRoute> 
+          }/>
+
+         
 
           {/* Página no encontrada */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </PetProvider>
       </AuthProvider>
     </Router>
   );

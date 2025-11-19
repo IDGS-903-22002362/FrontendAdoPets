@@ -24,4 +24,19 @@ export const ENDPOINTS = {
     DEACTIVATE: (id) => `/usuarios/${id}/deactivate`,
     ROLES: (id) => `/usuarios/${id}/roles`,
   },
+  MASCOTA: {
+    MASCOTA: '/Mascota',
+    ADDPET: '/Mascota',
+    ADDPHOTOS: (id) =>  `Mascota/${id}/photos`,
+    PETBYID : (id) => `Mascota/${id}`,
+    UPDATEPET: (id) =>  `Mascota/${id}`,
+    DELETEPET: 'Mascota/delete',
+    DELETEPHOTOS: (fotoId) => `Mascota/foto/${fotoId}`
+  },
+  ADOPCION: {
+    GETADOPCION: '/Adopcion/solicitud',
+    PUTREVIEW: 'Adopcion/solicitudes/EnRevision',
+    PUTACCEPTED    : 'Adopcion/solicitudes/Aceptada',
+    PUTREJECTED : 'Adopcion/solicitudes/Rechazada'
+  }
 };

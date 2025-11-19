@@ -12,6 +12,14 @@ const Dashboard = () => {
     navigate('/login');
   };
 
+   const handleBuscarMascotas = () => {
+    navigate('/ListPet');
+  };
+
+  const handleSolicitudAdopcion = () => {
+    navigate('/solicitud- Adopcione')
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -161,7 +169,9 @@ const Dashboard = () => {
         <div className="mt-8">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Acciones Rápidas</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button className="card hover:shadow-lg transition-shadow text-center">
+            <button  
+            onClick={handleBuscarMascotas}
+            className="card hover:shadow-lg transition-shadow text-center">
               <svg
                 className="w-12 h-12 text-primary mx-auto mb-3"
                 fill="none"
@@ -178,22 +188,29 @@ const Dashboard = () => {
               <p className="font-semibold text-gray-900">Buscar Mascotas</p>
             </button>
 
-            <button className="card hover:shadow-lg transition-shadow text-center">
-              <svg
+          <button 
+          onClick={handleSolicitudAdopcion}
+          className="card hover:shadow-lg transition-shadow text-center">
+               <svg
                 className="w-12 h-12 text-primary mx-auto mb-3"
                 fill="none"
                 stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              <p className="font-semibold text-gray-900">Nueva Adopción</p>
-            </button>
+                viewBox="0 0 24 24" >
+            <path
+               strokeLinecap="round"
+               strokeLinejoin="round"
+               strokeWidth={2}
+               d="M9 5h6M9 9h6m-6 4h6m-6 4h6"  
+            />
+            <path
+             strokeLinecap="round"
+             strokeLinejoin="round"
+             strokeWidth={2}
+            d="M4 6h2v12H4z" 
+           />
+          </svg>
+          <p className="font-semibold text-gray-900">Solicitudes de Adopciones</p></button>
+
 
             <button className="card hover:shadow-lg transition-shadow text-center">
               <svg
