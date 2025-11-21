@@ -11,20 +11,24 @@ import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import BackendTest from './pages/BackendTest';
 import PetProvider from './context/PetContext';
+import { ServicesProvider } from './context/ServicesContext';
 import ListPet from './pages/ListPet';
 import Adoption from './pages/Adoption';
+import Empleados from './pages/Empleados';
+import Especialidades from './pages/Especialidades';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <PetProvider>
-        <Routes>
-          {/* Rutas Públicas */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/backend-test" element={<BackendTest />} />
+          <ServicesProvider>
+            <Routes>
+              {/* Rutas Públicas */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/backend-test" element={<BackendTest />} />
 
           {/* Rutas Privadas */}
           <Route
@@ -52,11 +56,28 @@ function App() {
            </PrivateRoute> 
           }/>
 
-         
+          <Route
+            path="/empleados"
+            element={
+              <PrivateRoute>
+                <Empleados />
+              </PrivateRoute>
+            }
+          />
 
-          {/* Página no encontrada */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+          <Route
+            path="/especialidades"
+            element={
+              <PrivateRoute>
+                <Especialidades />
+              </PrivateRoute>
+            }
+          />
+
+              {/* Página no encontrada */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ServicesProvider>
         </PetProvider>
       </AuthProvider>
     </Router>

@@ -38,5 +38,33 @@ export const ENDPOINTS = {
     PUTREVIEW: 'Adopcion/solicitudes/EnRevision',
     PUTACCEPTED    : 'Adopcion/solicitudes/Aceptada',
     PUTREJECTED : 'Adopcion/solicitudes/Rechazada'
+  }, 
+  SERVICIOS: {
+    GETEMPLEADOS: '/Empleados',
+    ADDEMPLEADO: '/Empleados',
+    UPDATEEMPLEADO: (id) => `/Empleados/${id}`,
+    DELETEEMPLEADO: (id) => `/Empleados/${id}`,
+    GETEMPLEADO: (id) => `/Empleados/${id}`,
+    ACTIVATEEMPLEADO: (id) => `/Empleados/${id}/activate`,
+    DEACTIVATEEMPLEADO: (id) => `/Empleados/${id}/deactivate`,
+    ADDESPECIALIDADEMPLEADO: (id) => `/Empleados/${id}/especialidades`,
+    REMOVEESPECIALIDADEMPLEADO: (id, especialidadId) => `/Empleados/${id}/especialidades/${especialidadId}`,
+    // Endpoint de roles 
+    GETROLES: '/Empleados/roles',
+    // Endpoints para especialidades
+    GETESPECIALIDADES: '/Especialidad',
+    ADDESPECIALIDAD: '/Especialidad',
+    GETESPECIALIDAD: (codigo) => `/Especialidad/${codigo}`,
+    // Endpoints para horarios
+    GETHORARIOS: '/Horario',
+    ADDHORARIO: '/Horario',
+    GETHORARIO: (id) => `/Horario/${id}`,
+    UPDATEHORARIO: (id) => `/Horario/${id}`,
+    DELETEHORARIO: (id) => `/Horario/${id}`,
+    GETHORARIOSEMPLEADO: (empleadoId) => `/Horario/empleado/${empleadoId}`,
+    GETHORARIOSEMPLEADOEFECTIVO: (empleadoId) => `/Horario/empleado/${empleadoId}/efectivo`,
+    GETHORARIOSEMPLEADOAPLICABLE: (empleadoId) => `/Horario/empleado/${empleadoId}/aplicable`,
+    GETHORARIOCALENDARIO: '/Horario/calendario',
+    GETHORARIOCALENDARIOEMPLEADO: (empleadoId) => `/Horario/empleado/${empleadoId}/calendario`,
   }
 };
