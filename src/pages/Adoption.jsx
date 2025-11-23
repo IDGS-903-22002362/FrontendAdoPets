@@ -212,6 +212,9 @@ const Adoption = () => {
     const [processing, setProcessing] = useState(false);
     const [toast, setToast] = useState(null);
 
+    // Verificar si el usuario tiene permisos de administración
+    const canManageAdoptions = user?.roles?.includes('Admin') || user?.roles?.includes('Veterinario');
+
     // Función para mostrar notificaciones
     const showToast = (message, type = 'success') => {
         setToast({ message, type });
@@ -257,6 +260,12 @@ const Adoption = () => {
     const handleIniciarRevision = async () => {
         if (!selectedSolicitud) return;
         
+        // Verificar permisos
+        if (!canManageAdoptions) {
+            showToast('No tienes permisos para realizar esta acción', 'error');
+            return;
+        }
+        
         setProcessing(true);
         try {
             const result = await putSolicitud(selectedSolicitud.id);
@@ -292,6 +301,12 @@ const Adoption = () => {
     // Función para aprobar solicitud
     const handleAprobar = async () => {
         if (!selectedSolicitud) return;
+        
+        // Verificar permisos
+        if (!canManageAdoptions) {
+            showToast('No tienes permisos para realizar esta acción', 'error');
+            return;
+        }
         
         setProcessing(true);
         try {
@@ -336,6 +351,12 @@ const Adoption = () => {
             return;
         }
         
+        // Verificar permisos
+        if (!canManageAdoptions) {
+            showToast('No tienes permisos para realizar esta acción', 'error');
+            return;
+        }
+        
         setProcessing(true);
         try {
             const result = await putRejected(selectedSolicitud.id, motivoRechazo);
@@ -372,6 +393,11 @@ const Adoption = () => {
 
     // Función para abrir modal de rechazo
     const handleAbrirModalRechazo = () => {
+        // Verificar permisos
+        if (!canManageAdoptions) {
+            showToast('No tienes permisos para realizar esta acción', 'error');
+            return;
+        }
         setShowRechazoModal(true);
         setMotivoRechazo('');
     };
@@ -420,7 +446,10 @@ const Adoption = () => {
                     <div className="flex items-center space-x-4">
                         <div className="text-right">
                             <p className="text-sm font-medium text-gray-900">{user?.nombreCompleto}</p>
-                            <p className="text-xs text-gray-500">{user?.roles?.join(', ')}</p>
+                            <p className="text-xs text-gray-500">
+                                {user?.roles?.join(', ')}
+                                {!canManageAdoptions && ' (Solo lectura)'}
+                            </p>
                         </div>
                         <button
                             onClick={handleLogout}
@@ -509,6 +538,7 @@ const Adoption = () => {
                     <p className="text-sm text-gray-600">
                         Mostrando {filteredSolicitudes.length} de {solicitudes.length} solicitudes
                         {filtroEstado !== 'todos' && ` - Filtrado por: ${getEstadoText(parseInt(filtroEstado))}`}
+                        {!canManageAdoptions && ' (Modo solo lectura)'}
                     </p>
                 </div>
 
@@ -689,8 +719,12 @@ const Adoption = () => {
                                                 {selectedSolicitud.estado === ESTADOS.Pendiente && (
                                                     <button 
                                                         onClick={handleIniciarRevision}
-                                                        disabled={processing}
-                                                        className="px-3 py-2 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 border border-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        disabled={processing || !canManageAdoptions}
+                                                        className={`px-3 py-2 text-xs rounded border ${
+                                                            canManageAdoptions 
+                                                                ? 'bg-blue-600 text-white hover:bg-blue-700 border-blue-700' 
+                                                                : 'bg-gray-400 text-gray-200 border-gray-500 cursor-not-allowed'
+                                                        } disabled:opacity-50 disabled:cursor-not-allowed`}
                                                     >
                                                         {processing ? 'Procesando...' : 'Iniciar Revisión'}
                                                     </button>
@@ -701,15 +735,23 @@ const Adoption = () => {
                                                     <>
                                                         <button 
                                                             onClick={handleAbrirModalRechazo}
-                                                            disabled={processing}
-                                                            className="px-3 py-2 bg-red-600 text-white text-xs rounded hover:bg-red-700 border border-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                            disabled={processing || !canManageAdoptions}
+                                                            className={`px-3 py-2 text-xs rounded border ${
+                                                                canManageAdoptions 
+                                                                    ? 'bg-red-600 text-white hover:bg-red-700 border-red-700' 
+                                                                    : 'bg-gray-400 text-gray-200 border-gray-500 cursor-not-allowed'
+                                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
                                                         >
                                                             Rechazar
                                                         </button>
                                                         <button 
                                                             onClick={handleAprobar}
-                                                            disabled={processing}
-                                                            className="px-3 py-2 bg-green-600 text-white text-xs rounded hover:bg-green-700 border border-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                            disabled={processing || !canManageAdoptions}
+                                                            className={`px-3 py-2 text-xs rounded border ${
+                                                                canManageAdoptions 
+                                                                    ? 'bg-green-600 text-white hover:bg-green-700 border-green-700' 
+                                                                    : 'bg-gray-400 text-gray-200 border-gray-500 cursor-not-allowed'
+                                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
                                                         >
                                                             {processing ? 'Procesando...' : 'Aprobar'}
                                                         </button>
