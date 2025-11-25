@@ -282,6 +282,7 @@ const confirmDeletePhoto = (photoId, isExisting) => {
       // Convertir cada foto a Base64
       const fotosParaEnviar = await Promise.all(
         photos.map(async (photo, index) => {
+          
           const base64 = await convertFileToBase64(photo.file);
           return {
             storageKey: base64,
@@ -741,28 +742,7 @@ const confirmDeletePhoto = (photoId, isExisting) => {
       <AlertComponent />
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <Logo height="40px" className="mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">AdoPets</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-medium text-gray-900">{user?.nombreCompleto}</p>
-                <p className="text-xs text-gray-500">{user?.roles?.join(', ')}</p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="btn-secondary text-sm"
-              >
-                Cerrar Sesión
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

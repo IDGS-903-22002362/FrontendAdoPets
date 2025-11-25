@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
+import Sidebar from '../components/Sidebar';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -12,42 +13,57 @@ const Dashboard = () => {
     navigate('/login');
   };
 
-   const handleBuscarMascotas = () => {
+  const handleBuscarMascotas = () => {
     navigate('/ListPet');
   };
 
   const handleSolicitudAdopcion = () => {
-    navigate('/solicitud- Adopcione')
-  }
+    navigate('/solicitud- Adopcione');
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <Logo height="40px" className="mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">AdoPets</h1>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+    
+    {/* Header */}
+    <header className="bg-white shadow-sm w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              className="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100"
+              aria-label="Abrir menú"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
+            <Logo height="40px" className="mr-3" />
+            <h1 className="text-2xl font-bold text-gray-900">AdoPets</h1>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-medium text-gray-900">{user?.nombreCompleto}</p>
+              <p className="text-xs text-gray-500">{user?.roles?.join(', ')}</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-medium text-gray-900">{user?.nombreCompleto}</p>
-                <p className="text-xs text-gray-500">{user?.roles?.join(', ')}</p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="btn-secondary text-sm"
-              >
-                Cerrar Sesión
-              </button>
-            </div>
+            <button onClick={handleLogout} className="btn-secondary text-sm">Cerrar Sesión</button>
           </div>
         </div>
-      </header>
+      </div>
+    </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Content container */}
+        <div className="flex flex-1">
+         {/* Sidebar pegado a la izquierda */}
+      <aside className="w-64 bg-transparent hidden md:block">
+        <Sidebar />
+      </aside>
+
+          {/* Main column */}
+               <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
+
         {/* Welcome Card */}
         <div className="bg-gradient-to-r from-primary to-primary-light rounded-lg shadow-lg p-8 mb-8 text-white">
           <h2 className="text-3xl font-bold mb-2">
@@ -254,7 +270,9 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
-    </div>
+        </div>
+      </div>
+   
   );
 };
 
