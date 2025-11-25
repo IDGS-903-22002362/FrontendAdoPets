@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import authService from '../services/auth.service';
 import { AuthContext } from './AuthContextValue';
 
@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Verificar si hay un usuario en localStorage al cargar
     const storedUser = authService.getStoredUser();
     const token = localStorage.getItem('accessToken');
 
@@ -74,16 +73,23 @@ export const AuthProvider = ({ children }) => {
     return user?.roles?.includes(role) || false;
   };
 
-  const value = {
-    user,
-    isAuthenticated,
-    loading,
-    login,
-    register,
-    logout,
-    updateUser,
-    hasRole,
-  };
+  return (
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated,
+      loading,
+      login,
+      register,
+      logout,
+      updateUser,
+      hasRole,
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+// ⭐ AGREGA ESTO
+export const useAuth = () => {
+  return useContext(AuthContext);
 };

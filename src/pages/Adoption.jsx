@@ -437,30 +437,7 @@ const Adoption = () => {
         <div className="min-h-screen bg-gray-50 p-4">
             
             {/* Header */}
-            <header className="bg-white rounded-lg shadow-sm p-4 mb-6 border border-gray-200">
-                <div className="flex justify-between items-center max-w-7xl mx-auto">
-                    <div className="flex items-center">
-                        <Logo height="40px" className="mr-3" />
-                        <h1 className="text-xl font-bold text-gray-900">AdoPets - Panel de Adopciones</h1>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                        <div className="text-right">
-                            <p className="text-sm font-medium text-gray-900">{user?.nombreCompleto}</p>
-                            <p className="text-xs text-gray-500">
-                                {user?.roles?.join(', ')}
-                                {!canManageAdoptions && ' (Solo lectura)'}
-                            </p>
-                        </div>
-                        <button
-                            onClick={handleLogout}
-                            className="px-3 py-2 text-sm text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
-                        >
-                            Cerrar Sesión
-                        </button>
-                    </div>
-                </div>
-            </header>
-
+           
             {/* Main Content */}
             <div className="max-w-7xl mx-auto">
                 
