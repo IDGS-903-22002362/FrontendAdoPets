@@ -32,16 +32,16 @@ class MascotaService {
 
 async postRegister(pet){
   try{
-    console.log( 'ENVIANDO PET A LA API:');
-    console.log(' Datos:', JSON.stringify(pet, null, 2));
+    console.log('ENVIANDO PET A LA API:');
+    console.log('Datos:', JSON.stringify(pet, null, 2));
     
     const response = await apiClient.post(ENDPOINTS.MASCOTA.MASCOTA, pet);
     
-    console.log('✅ REGISTRO EXITOSO:', response.data);
+    console.log('REGISTRO EXITOSO:', response.data);
     return response.data;
   } catch (error){
     
-    console.log('   - Error completo:', error);
+    console.log('Error completo:', error);
     
     throw this.handleError(error);
   }
@@ -104,9 +104,9 @@ async photoDelete(fotoId) {
 }
 handleError(error) {
   console.log('DETALLES DEL ERROR:');
-  console.log('   - Response data:', error.response?.data);
-  console.log('   - Validation errors:', error.response?.data?.errors);
-  console.log('   - Title:', error.response?.data?.title);
+  console.log('Response data:', error.response?.data);
+  console.log('Validation errors:', error.response?.data?.errors);
+  console.log('Title:', error.response?.data?.title);
   
   return {
     success: false,

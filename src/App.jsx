@@ -1,26 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 // Layout
 import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import NotFound from './pages/NotFound';
-import BackendTest from './pages/BackendTest';
-import PetProvider from './context/PetContext';
-import { ServicesProvider } from './context/ServicesContext';
-import ListPet from './pages/ListPet';
-import Adoption from './pages/Adoption';
-import Empleados from './pages/Empleados';
-import Especialidades from './pages/Especialidades';
-import Inventario from './pages/Inventario';
-import ProveedoresPage from './pages/ProveedoresPage';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/NotFound";
+import BackendTest from "./pages/BackendTest";
+import PetProvider from "./context/PetContext";
+import { ServicesProvider } from "./context/ServicesContext";
+import ListPet from "./pages/ListPet";
+import Adoption from "./pages/Adoption";
+import Empleados from "./pages/Empleados";
+import Especialidades from "./pages/Especialidades";
+import Schedules from "./pages/Schedules";
+import Inventario from "./pages/Inventario";
+import ProveedoresPage from "./pages/ProveedoresPage";
 
 function App() {
   return (
@@ -29,25 +30,22 @@ function App() {
         <PetProvider>
           <ServicesProvider>
             <Routes>
-
               {/* Rutas Públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/backend-test" element={<BackendTest />} />
               <Route
-  path="/dashboard"
-  element={
-    <PrivateRoute>
-      <Dashboard />
-    </PrivateRoute>
-  }
-/>
-
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
 
               {/* RUTAS PRIVADAS CON LAYOUT */}
               <Route element={<DashboardLayout />}>
-                
                 <Route
                   path="/ListPet"
                   element={
@@ -58,12 +56,13 @@ function App() {
                 />
 
                 <Route
-          path= "/solicitud- Adopcione"
-          element = {
-           <PrivateRoute>
-            <Adoption/>
-           </PrivateRoute> 
-          }/>
+                  path="/solicitud- Adopcione"
+                  element={
+                    <PrivateRoute>
+                      <Adoption />
+                    </PrivateRoute>
+                  }
+                />
 
                 <Route
                   path="/empleados"
@@ -73,7 +72,8 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                 <Route
+
+                <Route
                   path="/proveedores"
                   element={
                     <PrivateRoute>
@@ -81,6 +81,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+
                 <Route
                   path="/inventario"
                   element={
@@ -95,6 +96,15 @@ function App() {
                   element={
                     <PrivateRoute>
                       <Especialidades />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/horarios"
+                  element={
+                    <PrivateRoute>
+                      <Schedules />
                     </PrivateRoute>
                   }
                 />

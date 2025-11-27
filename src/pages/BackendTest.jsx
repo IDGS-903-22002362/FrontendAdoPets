@@ -19,13 +19,13 @@ const BackendTest = () => {
 
       setTestResult({
         success: true,
-        message: '✅ Conexión exitosa con el backend',
+        message: 'Conexion exitosa con el backend',
         status: response.status
       });
     } catch (error) {
       setTestResult({
         success: false,
-        message: '❌ No se puede conectar con el backend',
+        message: 'No se puede conectar con el backend',
         error: error.message
       });
     } finally {
@@ -44,13 +44,13 @@ const BackendTest = () => {
           <Logo height="60px" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-          🔧 Prueba de Conexión con Backend
+          Prueba de Conexion con Backend
         </h1>
 
         <div className="space-y-6">
           {/* Instrucciones */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-2">📋 Pasos para conectar:</h3>
+            <h3 className="font-semibold text-blue-900 mb-2">Pasos para conectar:</h3>
             <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800">
               <li>Asegúrate de que tu backend esté corriendo</li>
               <li>Haz clic en "Abrir Backend" para aceptar el certificado SSL</li>
@@ -97,7 +97,7 @@ const BackendTest = () => {
 
           {/* Información adicional */}
           <div className="bg-gray-50 rounded-lg p-4 text-sm">
-            <h3 className="font-semibold text-gray-900 mb-2">ℹ️ Información:</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">Informacion:</h3>
             <ul className="space-y-1 text-gray-700">
               <li>• Backend URL: <code className="bg-gray-200 px-1 rounded">https://localhost:5001</code></li>
               <li>• Frontend URL: <code className="bg-gray-200 px-1 rounded">http://localhost:5173</code></li>
@@ -107,7 +107,7 @@ const BackendTest = () => {
 
           {/* Configuración CORS */}
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <h3 className="font-semibold text-yellow-900 mb-2">⚠️ Configuración CORS requerida:</h3>
+            <h3 className="font-semibold text-yellow-900 mb-2">Configuracion CORS requerida:</h3>
             <pre className="bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">
 {`builder.Services.AddCors(options =>
 {

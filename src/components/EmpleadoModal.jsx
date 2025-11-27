@@ -258,53 +258,62 @@ const EmpleadoModal = ({ isOpen, onClose, empleado = null, onSuccess }) => {
             </div>
           )}
 
+          {/* Datos personales - SIEMPRE VISIBLE */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">
+              Datos Personales
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Nombre *
+                </label>
+                <input
+                  type="text"
+                  name="usuario.nombre"
+                  value={formData.usuario.nombre}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Apellido Paterno *
+                </label>
+                <input
+                  type="text"
+                  name="usuario.apellidoPaterno"
+                  value={formData.usuario.apellidoPaterno}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Apellido Materno
+                </label>
+                <input
+                  type="text"
+                  name="usuario.apellidoMaterno"
+                  value={formData.usuario.apellidoMaterno}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Datos de usuario - SOLO AL CREAR */}
           {!empleado && (
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-4 text-gray-700">
-                Datos del Usuario
+                Datos de Usuario
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nombre *
-                  </label>
-                  <input
-                    type="text"
-                    name="usuario.nombre"
-                    value={formData.usuario.nombre}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Apellido Paterno *
-                  </label>
-                  <input
-                    type="text"
-                    name="usuario.apellidoPaterno"
-                    value={formData.usuario.apellidoPaterno}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Apellido Materno *
-                  </label>
-                  <input
-                    type="text"
-                    name="usuario.apellidoMaterno"
-                    value={formData.usuario.apellidoMaterno}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email Personal *

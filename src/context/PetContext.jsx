@@ -39,7 +39,7 @@ const getRegister = async (pet) => {
       notas: pet.notas
     };
 
-    console.log(' DATOS CORREGIDOS (CON MAYÚSCULAS):');
+    console.log('DATOS CORREGIDOS (CON MAYUSCULAS):');
     console.log('   - Origen:', petData.Origen);
     console.log('   - Datos completos:', petData);
 
@@ -50,7 +50,7 @@ const getRegister = async (pet) => {
       data: response,
     };
   } catch (error) {
-    console.log(' ERROR EN PET PROVIDER:');
+    console.log('ERROR EN PET PROVIDER:');
     console.log('   - Error response:', error.response?.data);
     
     return {
@@ -63,18 +63,18 @@ const getRegister = async (pet) => {
 
  const addPhotos = async (id, fotos) => {
   try {
-    console.log(' Provider: Enviando fotos para mascota', id);
-    console.log(' Datos de fotos:', fotos);
+    console.log('Provider: Enviando fotos para mascota', id);
+    console.log('Datos de fotos:', fotos);
     
     const response = await mascotaService.postPhotos(id, fotos);
     
-    console.log(' Provider: Respuesta de fotos:', response);
+    console.log('Provider: Respuesta de fotos:', response);
     return {
       success: true,
       data: response,
     };
   } catch (error) {
-    console.error(' Provider: Error en addPhotos:', error);
+    console.error('Provider: Error en addPhotos:', error);
     return {
       success: false,
       message: error.message || 'Error al agregar fotos',

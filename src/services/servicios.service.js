@@ -136,29 +136,92 @@ class ServicesService {
     }
   }
 
-
   // Obtener especialidad por código
   async getEspecialidadByCodigo(codigo) {
     try {
-        const response = await apiClient.get(
-            ENDPOINTS.SERVICIOS.GETESPECIALIDAD(codigo)
-        );
-        return response.data;
+      const response = await apiClient.get(
+        ENDPOINTS.SERVICIOS.GETESPECIALIDAD(codigo)
+      );
+      return response.data;
     } catch (error) {
-        throw this.handleError(error
-        );;
+      throw this.handleError(error);
     }
   }
 
   // Obtener lista de roles
   async getRoles() {
     try {
-        const response = await apiClient.get(ENDPOINTS.SERVICIOS.GETROLES);
-        return response.data;
+      const response = await apiClient.get(ENDPOINTS.SERVICIOS.GETROLES);
+      return response.data;
     } catch (error) {
-        throw this.handleError(error);
+      throw this.handleError(error);
     }
-  }     
+  }
+
+  // Agregar horario
+  async addHorario(dataHorario) {
+    try {
+      const response = await apiClient.post(
+        ENDPOINTS.SERVICIOS.ADDHORARIO,
+        dataHorario
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  // Editar horario
+  async updateHorario(id, dataHorario) {
+    try {
+      const response = await apiClient.put(
+        ENDPOINTS.SERVICIOS.UPDATEHORARIO(id),
+        dataHorario
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+  // Obtener calendario de horarios
+  async getCalendarioHorarios(fechaInicio, fechaFin, empleadoId = null) {
+    try {
+      let url = ENDPOINTS.SERVICIOS.GETHORARIOCALENDARIO;
+
+      if (empleadoId) {
+        url = ENDPOINTS.SERVICIOS.GETHORARIOCALENDARIOEMPLEADO(empleadoId);
+      }
+
+      const response = await apiClient.get(url, {
+        params: { fechaInicio, fechaFin },
+      });
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  // Obtener horario por ID
+  async getHorarioById(id) {
+    try {
+      const response = await apiClient.get(ENDPOINTS.SERVICIOS.GETHORARIO(id));
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  // Eliminar horario
+  async deleteHorario(id) {
+    try {
+      const response = await apiClient.delete(
+        ENDPOINTS.SERVICIOS.DELETEHORARIO(id)
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
 
   // Manejo de errores
   handleError(error) {
