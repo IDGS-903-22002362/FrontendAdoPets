@@ -108,13 +108,13 @@ const handleDeletePhoto = async (photoId) => {
   }
 
   try {
-    console.log('🗑️ Eliminando foto con ID:', photoId);
-    console.log('📋 Tipo de ID:', typeof photoId);
+    console.log('Eliminando foto con ID:', photoId);
+    console.log('Tipo de ID:', typeof photoId);
     
     const result = await deletePhotoPet(photoId);
     
     if (result.success) {
-      console.log('✅ Foto eliminada correctamente');
+      console.log('Foto eliminada correctamente');
       showAlert('success', 'Éxito', 'Foto eliminada correctamente');
       
       // Remover la foto del estado local
@@ -125,7 +125,7 @@ const handleDeletePhoto = async (photoId) => {
       });
       
     } else {
-      console.error('❌ Error en respuesta:', result);
+      console.error('Error en respuesta:', result);
       showAlert('error', 'Error', result.message || 'No se pudo eliminar la foto');
     }
   } catch (error) {
@@ -138,7 +138,7 @@ const handleDeletePhoto = async (photoId) => {
   // Función para confirmar eliminación de foto
   // En el botón de eliminar foto, agrega más información:
 const confirmDeletePhoto = (photoId, isExisting) => {
-  console.log('🖱️ Click en eliminar foto:', { photoId, isExisting });
+  console.log('Click en eliminar foto:', { photoId, isExisting });
   
   if (isExisting) {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta foto permanentemente?')) {
@@ -196,12 +196,12 @@ const confirmDeletePhoto = (photoId, isExisting) => {
           });
           
           if (!foto.id) {
-            console.error('❌ Foto sin ID:', foto);
+            console.error('Foto sin ID:', foto);
             return null;
           }
           
           return {
-            id: foto.id, // ✅ Usar el ID real del backend
+            id: foto.id, // Usar el ID real del backend
             preview: foto.storageKey,
             isPrincipal: foto.esPrincipal || false,
             isExisting: true,
@@ -209,7 +209,7 @@ const confirmDeletePhoto = (photoId, isExisting) => {
           };
         }).filter(photo => photo !== null);
         
-        console.log('✅ Fotos procesadas con IDs reales:', existingPhotos);
+        console.log('Fotos procesadas con IDs reales:', existingPhotos);
         setEditPetPhotos(existingPhotos);
       } else {
         console.log('📸 No hay fotos existentes');

@@ -243,6 +243,114 @@ export const ServicesProvider = ({children}) => {
         }   
     };
 
+    const getHorarios = async (inicio, fin, empleadoId = null) => {
+        try{
+            const response = await serviciosService.getCalendarioHorarios(inicio, fin, empleadoId);
+            if (response.success) {
+                return {
+                    success: true,
+                    data: response.data
+                };
+            }
+            return {
+                success: false,
+                message: response.message || 'Error al obtener los horarios',
+                errors: response.errors || [],
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message || 'Error al obtener los horarios',
+                errors: error.errors || [],
+            };
+        }
+    };
+
+    const getHorarioById = async (id) => {
+        try {
+            const response = await serviciosService.getHorarioById(id);
+            if (response.success) {
+                return {
+                    success: true,
+                    data: response.data
+                };
+            }
+            return {
+                success: false,
+                message: response.message || 'Error al obtener el horario',
+                errors: response.errors || [],
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message || 'Error al obtener el horario',
+                errors: error.errors || [],
+            };
+        }
+    };
+
+    const deleteHorario = async (id) => {
+        try {
+            const response = await serviciosService.deleteHorario(id);
+            if (response.success) {
+                return { success: true };
+            }
+            return {
+                success: false,
+                message: response.message || 'Error al eliminar el horario',
+                errors: response.errors || [],
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message || 'Error al eliminar el horario',
+                errors: error.errors || [],
+            };
+        }
+    };
+
+    // Agregar horario 
+    const addHorario = async (dataHorario) => {
+        try {
+            const response = await serviciosService.addHorario(dataHorario); 
+            if (response.success){
+                return {success: true}; 
+            }
+            return {
+                success: false, 
+                message: response.message || 'Error al agregar el horario', 
+                errors: response.errors || [],
+            };
+        }catch (error) {
+            return {
+                success: false, 
+                message: error.message || 'Error al agregar el horario', 
+                errors: error.errors || [],
+            };
+        }
+    }; 
+
+    // Actualizar horario 
+    const updateHorario = async (id, dataHorario) => {
+        try {
+            const response = await serviciosService.updateHorario(id, dataHorario); 
+            if (response.success){
+                return {success: true}; 
+            }
+            return {
+                success: false, 
+                message: response.message || 'Error al actualizar el horario', 
+                errors: response.errors || [],
+            };
+        }catch (error) {
+            return {
+                success: false, 
+                message: error.message || 'Error al actualizar el horario', 
+                errors: error.errors || [],
+            };
+        }
+    }; 
+
     const value = {
         services,
         getEmpleados,
@@ -257,7 +365,12 @@ export const ServicesProvider = ({children}) => {
         getEspecialidadByCodigo,
         getEspecialidades,
         addEspecialidad,
-        getRoles
+        getRoles, 
+        getHorarios,
+        getHorarioById,
+        deleteHorario,
+        addHorario, 
+        updateHorario
     }; 
 
     return <ServicesContext.Provider value={value}>{children}</ServicesContext.Provider>;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   MdClose,
   MdEdit,
@@ -47,7 +47,6 @@ const EmpleadoDetalleModal = ({ isOpen, onClose, empleadoId, onEdit }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
         <div className="flex justify-between items-center p-6 border-b sticky top-0 bg-white">
           <h2 className="text-2xl font-semibold text-gray-800">
             Detalle del Empleado
@@ -60,7 +59,6 @@ const EmpleadoDetalleModal = ({ isOpen, onClose, empleadoId, onEdit }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="p-6">
           {loading ? (
             <Loading message="Cargando información..." />

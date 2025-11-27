@@ -29,7 +29,7 @@ const Toast = ({ message, type = 'success', onClose }) => {
     const icon = {
         success: '✓',
         error: '✕',
-        warning: '⚠',
+        warning: '!',
         info: 'ℹ'
     };
 
