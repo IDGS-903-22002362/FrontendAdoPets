@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import Logo from '../components/Logo';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import Logo from "../components/Logo";
+import ParticleBackground from "../components/ParticleBackground";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     rememberMe: false,
   });
 
@@ -20,7 +21,7 @@ const Login = () => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -33,20 +34,21 @@ const Login = () => {
       const result = await login(formData);
 
       if (result.success) {
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
         setErrors(result.errors || [result.message]);
       }
     } catch {
-      setErrors(['Error al iniciar sesión. Por favor, intenta de nuevo.']);
+      setErrors(["Error al iniciar sesión. Por favor, intenta de nuevo."]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-dark via-primary to-primary-light flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen relative flex items-center justify-center px-4 py-12 overflow-hidden">
+      <ParticleBackground />
+      <div className="max-w-md w-full relative z-10">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           {/* Logo */}
@@ -181,7 +183,7 @@ const Login = () => {
                   Iniciando sesión...
                 </>
               ) : (
-                'Iniciar Sesión'
+                "Iniciar Sesión"
               )}
             </button>
           </form>
@@ -189,7 +191,7 @@ const Login = () => {
           {/* Register Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              ¿No tienes una cuenta?{' '}
+              ¿No tienes una cuenta?{" "}
               <Link
                 to="/register"
                 className="font-medium text-primary hover:text-primary-dark"
@@ -204,7 +206,7 @@ const Login = () => {
         <div className="mt-6 text-center">
           <Link
             to="/"
-            className="text-white hover:text-primary-light transition-colors"
+            className="text-gray-600 hover:text-primary transition-colors"
           >
             ← Volver al inicio
           </Link>

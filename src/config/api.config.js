@@ -40,6 +40,36 @@ export const ENDPOINTS = {
     PUTACCEPTED    : 'Adopcion/solicitudes/Aceptada',
     PUTREJECTED : 'Adopcion/solicitudes/Rechazada'
   }, 
+  CITAS: {
+    BASE: '/citas',
+    BY_ID: (id) => `/citas/${id}`,
+    POR_VETERINARIO: (id) => `/citas/veterinario/${id}`,
+    POR_ESTADO: (status) => `/citas/estado/${status}`,
+    POR_RANGO: '/citas/rango',
+    DISPONIBILIDAD: '/citas/disponibilidad',
+    CANCELAR: (id) => `/citas/${id}/cancelar`,
+    COMPLETAR: (id) => `/citas/${id}/completar`,
+    DELETE: (id) => `/citas/${id}`
+  },
+  PAGOS: {
+    BASE: '/pagos',
+    BY_ID: (id) => `/pagos/${id}`,
+    POR_USUARIO: (usuarioId) => `/pagos/usuario/${usuarioId}`,
+    PAYPAL_ORDER: '/pagos/paypal/create-order',
+    PAYPAL_CAPTURE: '/pagos/paypal/capture',
+    PAYPAL_BY_ORDER: (orderId) => `/pagos/paypal/${orderId}`,
+    CANCELAR: (id) => `/pagos/${id}/cancelar`
+  },
+  CITAS_DIGITALES: {
+    BASE: '/solicitudescitasdigitales',
+    BY_ID: (id) => `/solicitudescitasdigitales/${id}`,
+    POR_USUARIO: (usuarioId) => `/solicitudescitasdigitales/usuario/${usuarioId}`,
+    PENDIENTES: '/solicitudescitasdigitales/pendientes',
+    EN_REVISION: (id) => `/solicitudescitasdigitales/${id}/en-revision`,
+    VERIFICAR: '/solicitudescitasdigitales/verificar-disponibilidad',
+    CONFIRMAR: '/solicitudescitasdigitales/confirmar',
+    RECHAZAR: '/solicitudescitasdigitales/rechazar'
+  },
   SERVICIOS: {
     GETEMPLEADOS: '/Empleados',
     ADDEMPLEADO: '/Empleados',

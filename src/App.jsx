@@ -22,6 +22,9 @@ import Especialidades from "./pages/Especialidades";
 import Schedules from "./pages/Schedules";
 import Inventario from "./pages/Inventario";
 import ProveedoresPage from "./pages/ProveedoresPage";
+import CitasAdmin from "./pages/CitasAdmin";
+import PagosAdmin from "./pages/PagosAdmin";
+import CobranzaAdmin from "./pages/CobranzaAdmin";
 
 function App() {
   return (
@@ -105,6 +108,33 @@ function App() {
                   element={
                     <PrivateRoute>
                       <Schedules />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/citas"
+                  element={
+                    <PrivateRoute>
+                      <CitasAdmin />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/pagos"
+                  element={
+                    <PrivateRoute>
+                      <PagosAdmin />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/cobranza"
+                  element={
+                    <PrivateRoute>
+                      <CobranzaAdmin />
                     </PrivateRoute>
                   }
                 />

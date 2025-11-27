@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import Logo from '../components/Logo';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import Logo from "../components/Logo";
+import ParticleBackground from "../components/ParticleBackground";
 
 const Register = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
 
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
-    email: '',
-    telefono: '',
-    password: '',
-    confirmPassword: '',
+    nombre: "",
+    apellidoPaterno: "",
+    apellidoMaterno: "",
+    email: "",
+    telefono: "",
+    password: "",
+    confirmPassword: "",
     aceptaPoliticas: false,
   });
 
@@ -26,29 +27,31 @@ const Register = () => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const validateForm = () => {
     const newErrors = [];
 
-    if (!formData.nombre.trim()) newErrors.push('El nombre es requerido');
-    if (!formData.apellidoPaterno.trim()) newErrors.push('El apellido paterno es requerido');
-    if (!formData.email.trim()) newErrors.push('El email es requerido');
-    if (!formData.password) newErrors.push('La contraseña es requerida');
+    if (!formData.nombre.trim()) newErrors.push("El nombre es requerido");
+    if (!formData.apellidoPaterno.trim())
+      newErrors.push("El apellido paterno es requerido");
+    if (!formData.email.trim()) newErrors.push("El email es requerido");
+    if (!formData.password) newErrors.push("La contraseña es requerida");
     if (formData.password !== formData.confirmPassword) {
-      newErrors.push('Las contraseñas no coinciden');
+      newErrors.push("Las contraseñas no coinciden");
     }
     if (!formData.aceptaPoliticas) {
-      newErrors.push('Debes aceptar las políticas de privacidad');
+      newErrors.push("Debes aceptar las políticas de privacidad");
     }
 
     // Validación de contraseña
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     if (formData.password && !passwordRegex.test(formData.password)) {
       newErrors.push(
-        'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial'
+        "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial"
       );
     }
 
@@ -71,20 +74,21 @@ const Register = () => {
       const result = await register(formData);
 
       if (result.success) {
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
         setErrors(result.errors || [result.message]);
       }
     } catch {
-      setErrors(['Error al registrarse. Por favor, intenta de nuevo.']);
+      setErrors(["Error al registrarse. Por favor, intenta de nuevo."]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-dark via-primary to-primary-light flex items-center justify-center px-4 py-12">
-      <div className="max-w-2xl w-full">
+    <div className="min-h-screen relative flex items-center justify-center px-4 py-12 overflow-hidden">
+      <ParticleBackground />
+      <div className="max-w-2xl w-full relative z-10">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           {/* Logo */}
@@ -113,7 +117,9 @@ const Register = () => {
                 </svg>
                 <div className="text-sm text-red-800">
                   {errors.map((error, index) => (
-                    <p key={index} className="mb-1">{error}</p>
+                    <p key={index} className="mb-1">
+                      {error}
+                    </p>
                   ))}
                 </div>
               </div>
@@ -125,7 +131,10 @@ const Register = () => {
             {/* Nombre y Apellidos */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="nombre"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Nombre *
                 </label>
                 <input
@@ -140,7 +149,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label htmlFor="apellidoPaterno" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="apellidoPaterno"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Apellido Paterno *
                 </label>
                 <input
@@ -155,7 +167,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label htmlFor="apellidoMaterno" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="apellidoMaterno"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Apellido Materno
                 </label>
                 <input
@@ -173,7 +188,10 @@ const Register = () => {
             {/* Email y Teléfono */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Correo electrónico *
                 </label>
                 <input
@@ -188,7 +206,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="telefono"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Teléfono
                 </label>
                 <input
@@ -206,12 +227,15 @@ const Register = () => {
             {/* Contraseñas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Contraseña *
                 </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
@@ -226,24 +250,52 @@ const Register = () => {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     {showPassword ? (
-                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      <svg
+                        className="w-5 h-5 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        />
                       </svg>
                     ) : (
-                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                      <svg
+                        className="w-5 h-5 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                        />
                       </svg>
                     )}
                   </button>
                 </div>
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Confirmar Contraseña *
                 </label>
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -265,13 +317,22 @@ const Register = () => {
                 onChange={handleChange}
                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded mt-1"
               />
-              <label htmlFor="aceptaPoliticas" className="ml-2 block text-sm text-gray-700">
-                Acepto las{' '}
-                <Link to="/politicas" className="text-primary hover:text-primary-dark">
+              <label
+                htmlFor="aceptaPoliticas"
+                className="ml-2 block text-sm text-gray-700"
+              >
+                Acepto las{" "}
+                <Link
+                  to="/politicas"
+                  className="text-primary hover:text-primary-dark"
+                >
                   políticas de privacidad
-                </Link>{' '}
-                y{' '}
-                <Link to="/terminos" className="text-primary hover:text-primary-dark">
+                </Link>{" "}
+                y{" "}
+                <Link
+                  to="/terminos"
+                  className="text-primary hover:text-primary-dark"
+                >
                   términos de servicio
                 </Link>
                 *
@@ -309,7 +370,7 @@ const Register = () => {
                   Registrando...
                 </>
               ) : (
-                'Registrarse'
+                "Registrarse"
               )}
             </button>
           </form>
@@ -317,8 +378,11 @@ const Register = () => {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              ¿Ya tienes una cuenta?{' '}
-              <Link to="/login" className="font-medium text-primary hover:text-primary-dark">
+              ¿Ya tienes una cuenta?{" "}
+              <Link
+                to="/login"
+                className="font-medium text-primary hover:text-primary-dark"
+              >
                 Inicia sesión aquí
               </Link>
             </p>
@@ -327,7 +391,10 @@ const Register = () => {
 
         {/* Back to Home */}
         <div className="mt-6 text-center">
-          <Link to="/" className="text-white hover:text-primary-light transition-colors">
+          <Link
+            to="/"
+            className="text-gray-600 hover:text-primary transition-colors"
+          >
             ← Volver al inicio
           </Link>
         </div>

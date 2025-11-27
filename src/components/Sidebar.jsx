@@ -89,6 +89,23 @@ const Sidebar = ({ onClose }) => {
         </Link>
 
         <Link
+          to="/citas"
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 font-medium text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6 text-primary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Citas
+        </Link>
+
+        <Link
           to="/solicitud- Adopcione"
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 font-medium text-gray-700"
         >
@@ -112,6 +129,40 @@ const Sidebar = ({ onClose }) => {
             />
           </svg>
           Solicitudes
+        </Link>
+
+        <Link
+          to="/pagos"
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 font-medium text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6 text-primary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v2m14 0h-3a2 2 0 00-2 2v0a2 2 0 002 2h3m0-4h2a2 2 0 012 2v0a2 2 0 01-2 2h-2m0-4v4m-7 6h8m-6-4h4" />
+          </svg>
+          Pagos
+        </Link>
+
+        <Link
+          to="/cobranza"
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 font-medium text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6 text-primary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.12-3 2.5S10.343 13 12 13s3 1.12 3 2.5S13.657 18 12 18m0-10c1.03 0 1.93.39 2.536 1M12 8c-1.03 0-1.93.39-2.536 1M12 6v2m0 10v-2m8-5a8 8 0 11-16 0 8 8 0 0116 0z" />
+          </svg>
+          Cobranza
         </Link>
 
         <Link

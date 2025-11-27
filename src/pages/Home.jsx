@@ -1,23 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../components/Logo';
+import React from "react";
+import { Link } from "react-router-dom";
+import Logo from "../components/Logo";
+import ParticleBackground from "../components/ParticleBackground";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-dark via-primary to-primary-light flex items-center justify-center px-4">
-      <div className="max-w-4xl w-full text-center">
+    <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden">
+      <ParticleBackground />
+      <div className="max-w-4xl w-full text-center relative z-10">
         {/* Logo o Icono */}
         <div className="mb-8">
           <div className="mb-6 flex justify-center">
             <Logo height="120px" className="drop-shadow-2xl" />
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
             AdoPets
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-2">
+          <p className="text-xl md:text-2xl text-gray-700 mb-2">
             Encuentra tu compañero ideal
           </p>
-          <p className="text-lg text-white/80">
+          <p className="text-lg text-gray-600">
             Dale un hogar a una mascota que lo necesita
           </p>
         </div>
@@ -26,13 +28,13 @@ const Home = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
           <Link
             to="/login"
-            className="w-full sm:w-auto bg-white text-primary hover:bg-gray-100 font-bold py-4 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+            className="w-full sm:w-auto bg-primary text-white hover:bg-primary-dark font-bold py-4 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
           >
             Iniciar Sesión
           </Link>
           <Link
             to="/register"
-            className="w-full sm:w-auto bg-primary-light text-primary-dark hover:bg-blue-300 font-bold py-4 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+            className="w-full sm:w-auto bg-white text-primary border-2 border-primary hover:bg-gray-50 font-bold py-4 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
           >
             Registrarse
           </Link>
@@ -40,8 +42,8 @@ const Home = () => {
 
         {/* Características */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <div className="text-white mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-gray-100">
+            <div className="text-primary mb-3">
               <svg
                 className="w-12 h-12 mx-auto"
                 fill="none"
@@ -57,16 +59,16 @@ const Home = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-white font-semibold text-lg mb-2">
+            <h3 className="text-gray-900 font-semibold text-lg mb-2">
               Adopción Responsable
             </h3>
-            <p className="text-white/80 text-sm">
+            <p className="text-gray-600 text-sm">
               Conectamos mascotas con familias amorosas
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <div className="text-white mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-gray-100">
+            <div className="text-primary mb-3">
               <svg
                 className="w-12 h-12 mx-auto"
                 fill="none"
@@ -82,16 +84,16 @@ const Home = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-white font-semibold text-lg mb-2">
+            <h3 className="text-gray-900 font-semibold text-lg mb-2">
               Proceso Seguro
             </h3>
-            <p className="text-white/80 text-sm">
+            <p className="text-gray-600 text-sm">
               Verificación y seguimiento de cada adopción
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <div className="text-white mb-3">
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-gray-100">
+            <div className="text-primary mb-3">
               <svg
                 className="w-12 h-12 mx-auto"
                 fill="none"
@@ -107,10 +109,10 @@ const Home = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-white font-semibold text-lg mb-2">
+            <h3 className="text-gray-900 font-semibold text-lg mb-2">
               Comunidad Activa
             </h3>
-            <p className="text-white/80 text-sm">
+            <p className="text-gray-600 text-sm">
               Únete a miles de personas que aman a los animales
             </p>
           </div>
