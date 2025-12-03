@@ -1,8 +1,9 @@
 // Configuración de la API
 export const API_CONFIG = {
   BASE_URL:
-    import.meta.env.VITE_API_BASE_URL ||
-    "https://adopetsbkd20251124143834-b0abacgfbsd5fbdz.canadacentral-01.azurewebsites.net/api/v1",
+    //import.meta.env.VITE_API_BASE_URL ||
+    //"https://adopetsbkd20251124143834-b0abacgfbsd5fbdz.canadacentral-01.azurewebsites.net/api/v1",
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5151/api/v1",
   TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000,
   HEADERS: {
     "Content-Type": "application/json",
@@ -88,6 +89,13 @@ export const ENDPOINTS = {
     BY_ID: (id) => `/Servicios/${id}`,
     TODOS: "/Servicios/todos",
     ACTIVAR: (id) => `/Servicios/${id}/activar`,
+  },
+  TICKETS: {
+    BASE: "/Tickets",
+    BY_ID: (id) => `/Tickets/${id}`,
+  },
+  INVENTARIO: {
+    ITEMS: "/items/inventario",
   },
   SERVICIOS: {
     GETEMPLEADOS: "/Empleados",

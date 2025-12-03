@@ -2,6 +2,9 @@ import { useState } from "react";
 import serviciosService from "../services/servicios.service";
 import donacionesService from "../services/donaciones.service";
 import serviciosVeterinariosService from "../services/serviciosVeterinarios.service";
+import citasService from "../services/citas.service";
+import ticketsService from "../services/tickets.service";
+import inventarioService from "../services/inventario.service";
 import { ServicesContext } from "./ServicesContextValue";
 
 export const ServicesProvider = ({children}) => {
@@ -445,6 +448,78 @@ export const ServicesProvider = ({children}) => {
         }
     };
 
+    const getCitasPorVeterinario = async (veterinarioId, startDate, endDate) => {
+        try {
+            const response = await citasService.getByVeterinario(veterinarioId, { startDate, endDate });
+            if (response.success) {
+                return { success: true, data: response.data };
+            }
+            return { success: false, message: response.message || 'Error al obtener citas', errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener citas', errors: error.errors || [] };
+        }
+    };
+
+    const completarCita = async (id, notas) => {
+        try {
+            const response = await citasService.completar(id, notas);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al completar cita', errors: error.errors || [] };
+        }
+    };
+
+    const cancelarCita = async (id, motivoRechazo) => {
+        try {
+            const response = await citasService.cancelar(id, motivoRechazo);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al cancelar cita', errors: error.errors || [] };
+        }
+    };
+
+    const crearTicket = async (payload) => {
+        try {
+            const response = await ticketsService.create(payload);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al crear ticket', errors: error.errors || [] };
+        }
+    };
+
+    const getTickets = async (params) => {
+        try {
+            const response = await ticketsService.list(params);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener tickets', errors: error.errors || [] };
+        }
+    };
+
+    const getTicketById = async (id) => {
+        try {
+            const response = await ticketsService.getById(id);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener ticket', errors: error.errors || [] };
+        }
+    };
+
+    const getInventario = async () => {
+        try {
+            const response = await inventarioService.getInventario();
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener inventario', errors: error.errors || [] };
+        }
+    };
+
     const value = {
         services,
         getEmpleados,
@@ -474,7 +549,14 @@ export const ServicesProvider = ({children}) => {
         createServicioVeterinario,
         updateServicioVeterinario,
         deleteServicioVeterinario,
-        activarServicioVeterinario
+        activarServicioVeterinario,
+        getCitasPorVeterinario,
+        completarCita,
+        cancelarCita,
+        crearTicket,
+        getTickets,
+        getTicketById,
+        getInventario
     };    return <ServicesContext.Provider value={value}>{children}</ServicesContext.Provider>;
 }
 

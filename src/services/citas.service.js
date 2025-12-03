@@ -114,7 +114,7 @@ class CitasService {
   async completar(id, notas) {
     try {
       const response = await apiClient.put(ENDPOINTS.CITAS.COMPLETAR(id), {
-        notas,
+        notas: notas || "",
       });
       return response.data;
     } catch (error) {
