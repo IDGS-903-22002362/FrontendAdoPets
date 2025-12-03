@@ -70,6 +70,16 @@ export const ENDPOINTS = {
     CONFIRMAR: '/solicitudescitasdigitales/confirmar',
     RECHAZAR: '/solicitudescitasdigitales/rechazar'
   },
+  DONACIONES: {
+    PUBLICAS: '/Donaciones/publicas',
+    POR_USUARIO: (usuarioId) => `/Donaciones/usuario/${usuarioId}`
+  },
+  SERVICIOS_VETERINARIOS: {
+    BASE: '/Servicios',
+    BY_ID: (id) => `/Servicios/${id}`,
+    TODOS: '/Servicios/todos',
+    ACTIVAR: (id) => `/Servicios/${id}/activar`
+  },
   SERVICIOS: {
     GETEMPLEADOS: '/Empleados',
     ADDEMPLEADO: '/Empleados',

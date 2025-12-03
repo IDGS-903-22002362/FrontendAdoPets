@@ -1,5 +1,7 @@
 import { useState } from "react";
 import serviciosService from "../services/servicios.service";
+import donacionesService from "../services/donaciones.service";
+import serviciosVeterinariosService from "../services/serviciosVeterinarios.service";
 import { ServicesContext } from "./ServicesContextValue";
 
 export const ServicesProvider = ({children}) => {
@@ -309,6 +311,8 @@ export const ServicesProvider = ({children}) => {
         }
     };
 
+
+
     // Agregar horario 
     const addHorario = async (dataHorario) => {
         try {
@@ -351,6 +355,96 @@ export const ServicesProvider = ({children}) => {
         }
     }; 
 
+    // Donaciones
+    const getDonacionesPublicas = async (pageNumber = 1, pageSize = 10, filtro = 0) => {
+        try {
+            const response = await donacionesService.getDonacionesPublicas(pageNumber, pageSize, filtro);
+            if (response.success) {
+                return { success: true, data: response.data };
+            }
+            return { success: false, message: response.message || 'Error al obtener donaciones', errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener donaciones', errors: error.errors || [] };
+        }
+    };
+
+    const getDonacionesPorUsuario = async (usuarioId) => {
+        try {
+            const response = await donacionesService.getDonacionesPorUsuario(usuarioId);
+            if (response.success) {
+                return { success: true, data: response.data };
+            }
+            return { success: false, message: response.message || 'Error al obtener donaciones del usuario', errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener donaciones del usuario', errors: error.errors || [] };
+        }
+    };
+
+    // Servicios Veterinarios
+    const getServiciosVeterinarios = async (incluirInactivos = false) => {
+        try {
+            const response = await serviciosVeterinariosService.getAll(incluirInactivos);
+            if (response.success) {
+                return { success: true, data: response.data };
+            }
+            return { success: false, message: response.message || 'Error al obtener servicios', errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener servicios', errors: error.errors || [] };
+        }
+    };
+
+    const getServicioVeterinarioById = async (id) => {
+        try {
+            const response = await serviciosVeterinariosService.getById(id);
+            if (response.success) {
+                return { success: true, data: response.data };
+            }
+            return { success: false, message: response.message || 'Error al obtener servicio', errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al obtener servicio', errors: error.errors || [] };
+        }
+    };
+
+    const createServicioVeterinario = async (payload) => {
+        try {
+            const response = await serviciosVeterinariosService.create(payload);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al crear servicio', errors: error.errors || [] };
+        }
+    };
+
+    const updateServicioVeterinario = async (id, payload) => {
+        try {
+            const response = await serviciosVeterinariosService.update(id, payload);
+            if (response.success) return { success: true, data: response.data };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al actualizar servicio', errors: error.errors || [] };
+        }
+    };
+
+    const deleteServicioVeterinario = async (id) => {
+        try {
+            const response = await serviciosVeterinariosService.delete(id);
+            if (response.success) return { success: true };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al eliminar servicio', errors: error.errors || [] };
+        }
+    };
+
+    const activarServicioVeterinario = async (id) => {
+        try {
+            const response = await serviciosVeterinariosService.activar(id);
+            if (response.success) return { success: true };
+            return { success: false, message: response.message, errors: response.errors || [] };
+        } catch (error) {
+            return { success: false, message: error.message || 'Error al activar servicio', errors: error.errors || [] };
+        }
+    };
+
     const value = {
         services,
         getEmpleados,
@@ -370,10 +464,18 @@ export const ServicesProvider = ({children}) => {
         getHorarioById,
         deleteHorario,
         addHorario, 
-        updateHorario
-    }; 
-
-    return <ServicesContext.Provider value={value}>{children}</ServicesContext.Provider>;
+        updateHorario,
+        // Donaciones
+        getDonacionesPublicas,
+        getDonacionesPorUsuario,
+        // Servicios Veterinarios
+        getServiciosVeterinarios,
+        getServicioVeterinarioById,
+        createServicioVeterinario,
+        updateServicioVeterinario,
+        deleteServicioVeterinario,
+        activarServicioVeterinario
+    };    return <ServicesContext.Provider value={value}>{children}</ServicesContext.Provider>;
 }
 
 export default ServicesProvider;
