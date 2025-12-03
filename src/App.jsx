@@ -2,9 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import DashboardLayout from "./components/DashboardLayout";
 
-// Layout
-import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
 import Home from "./pages/Home";
@@ -23,10 +22,13 @@ import Schedules from "./pages/Schedules";
 import Donaciones from "./pages/Donaciones";
 import ServiciosVeterinarios from "./pages/ServiciosVeterinarios";
 import Inventario from "./pages/Inventario";
+import Salas from "./pages/Salas";
 import ProveedoresPage from "./pages/ProveedoresPage";
 import CitasAdmin from "./pages/CitasAdmin";
 import PagosAdmin from "./pages/PagosAdmin";
 import CobranzaAdmin from "./pages/CobranzaAdmin";
+import Expedientes from "./pages/Expedientes";
+import Tickets from "./pages/Tickets";
 
 function App() {
   return (
@@ -155,6 +157,33 @@ function App() {
                   element={
                     <PrivateRoute>
                       <CobranzaAdmin />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/salas"
+                  element={
+                    <PrivateRoute>
+                      <Salas />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/expedientes"
+                  element={
+                    <PrivateRoute>
+                      <Expedientes />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/tickets"
+                  element={
+                    <PrivateRoute>
+                      <Tickets />
                     </PrivateRoute>
                   }
                 />

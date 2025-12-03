@@ -1,69 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../components/Logo';
 import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
-  };
+  const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleBuscarMascotas = () => {
     navigate('/ListPet');
   };
 
   const handleSolicitudAdopcion = () => {
-    navigate('/solicitud- Adopcione');
-  };
+    navigate('/solicitud- Adopcione')
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-    
-    {/* Header */}
-    <header className="bg-white shadow-sm w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              className="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100"
-              aria-label="Abrir menú"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+    <div className="flex h-screen bg-gray-50">
+      {/* Sidebar */}
+      <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
-            <Logo height="40px" className="mr-3" />
-            <h1 className="text-2xl font-bold text-gray-900">AdoPets</h1>
-          </div>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <Header title="Dashboard" isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
-          <div className="flex items-center space-x-4">
-            <div className="text-right hidden sm:block">
-              <p className="text-sm font-medium text-gray-900">{user?.nombreCompleto}</p>
-              <p className="text-xs text-gray-500">{user?.roles?.join(', ')}</p>
-            </div>
-            <button onClick={handleLogout} className="btn-secondary text-sm">Cerrar Sesión</button>
-          </div>
-        </div>
-      </div>
-    </header>
-
-      {/* Content container */}
-        <div className="flex flex-1">
-         {/* Sidebar pegado a la izquierda */}
-      <aside className="w-64 bg-transparent hidden md:block">
-        <Sidebar />
-      </aside>
-
-          {/* Main column */}
-               <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
-
+        {/* Main Content Area */}
+        <main className="flex-1 p-4 lg:p-8 overflow-y-auto">
         {/* Welcome Card */}
         <div className="bg-gradient-to-r from-primary to-primary-light rounded-lg shadow-lg p-8 mb-8 text-white">
           <h2 className="text-3xl font-bold mb-2">
@@ -185,7 +151,7 @@ const Dashboard = () => {
         <div className="mt-8">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Acciones Rápidas</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button  
+            <button 
             onClick={handleBuscarMascotas}
             className="card hover:shadow-lg transition-shadow text-center">
               <svg
@@ -204,29 +170,24 @@ const Dashboard = () => {
               <p className="font-semibold text-gray-900">Buscar Mascotas</p>
             </button>
 
-          <button 
-          onClick={handleSolicitudAdopcion}
-          className="card hover:shadow-lg transition-shadow text-center">
-               <svg
+            <button 
+            onClick={handleSolicitudAdopcion} 
+            className="card hover:shadow-lg transition-shadow text-center">
+              <svg
                 className="w-12 h-12 text-primary mx-auto mb-3"
                 fill="none"
                 stroke="currentColor"
-                viewBox="0 0 24 24" >
-            <path
-               strokeLinecap="round"
-               strokeLinejoin="round"
-               strokeWidth={2}
-               d="M9 5h6M9 9h6m-6 4h6m-6 4h6"  
-            />
-            <path
-             strokeLinecap="round"
-             strokeLinejoin="round"
-             strokeWidth={2}
-            d="M4 6h2v12H4z" 
-           />
-          </svg>
-          <p className="font-semibold text-gray-900">Solicitudes de Adopciones</p></button>
-
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <p className="font-semibold text-gray-900">Nueva Adopción</p>
+            </button>
 
             <button className="card hover:shadow-lg transition-shadow text-center">
               <svg
@@ -269,10 +230,9 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-      </main>
-        </div>
+        </main>
       </div>
-   
+    </div>
   );
 };
 
