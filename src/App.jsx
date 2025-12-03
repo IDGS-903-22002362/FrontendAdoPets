@@ -20,6 +20,8 @@ import Adoption from "./pages/Adoption";
 import Empleados from "./pages/Empleados";
 import Especialidades from "./pages/Especialidades";
 import Schedules from "./pages/Schedules";
+import Donaciones from "./pages/Donaciones";
+import ServiciosVeterinarios from "./pages/ServiciosVeterinarios";
 import Inventario from "./pages/Inventario";
 import ProveedoresPage from "./pages/ProveedoresPage";
 import CitasAdmin from "./pages/CitasAdmin";
@@ -108,6 +110,24 @@ function App() {
                   element={
                     <PrivateRoute>
                       <Schedules />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/donaciones"
+                  element={
+                    <PrivateRoute>
+                      <Donaciones />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/servicios-veterinarios"
+                  element={
+                    <PrivateRoute>
+                      <ServiciosVeterinarios />
                     </PrivateRoute>
                   }
                 />
