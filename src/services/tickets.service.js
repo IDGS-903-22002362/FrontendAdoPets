@@ -1,11 +1,29 @@
 import { ENDPOINTS } from "../config/api.config";
 import apiClient from "./api.service";
 
-class InventarioService {
-  async getInventario() {
+class TicketsService {
+  async list(params = {}) {
     try {
-      const response = await apiClient.get(ENDPOINTS.INVENTARIO.ITEMS);
-      return { success: true, data: response.data };
+      const response = await apiClient.get(ENDPOINTS.TICKETS.BASE, { params });
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async getById(id) {
+    try {
+      const response = await apiClient.get(ENDPOINTS.TICKETS.BY_ID(id));
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async create(payload) {
+    try {
+      const response = await apiClient.post(ENDPOINTS.TICKETS.BASE, payload);
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -18,6 +36,7 @@ class InventarioService {
         message: data?.message || "Error en la solicitud",
         errors: data?.errors || [],
         status: status,
+        backendError: data
       };
     } else if (error.request) {
       return {
@@ -35,4 +54,4 @@ class InventarioService {
   }
 }
 
-export default new InventarioService();
+export default new TicketsService();

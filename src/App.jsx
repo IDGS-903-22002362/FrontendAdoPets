@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import RoleGuard from "./components/RoleGuard";
 import DashboardLayout from "./components/DashboardLayout";
+import { ROLES } from "./config/roles.config";
 
 
 // Pages
@@ -21,6 +23,7 @@ import Especialidades from "./pages/Especialidades";
 import Schedules from "./pages/Schedules";
 import Donaciones from "./pages/Donaciones";
 import ServiciosVeterinarios from "./pages/ServiciosVeterinarios";
+import CitasVeterinario from "./pages/CitasVeterinario";
 import Inventario from "./pages/Inventario";
 import Salas from "./pages/Salas";
 import ProveedoresPage from "./pages/ProveedoresPage";
@@ -75,7 +78,9 @@ function App() {
                   path="/empleados"
                   element={
                     <PrivateRoute>
-                      <Empleados />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN]}>
+                        <Empleados />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -84,7 +89,9 @@ function App() {
                   path="/proveedores"
                   element={
                     <PrivateRoute>
-                      <ProveedoresPage />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.ALMACENISTA]}>
+                        <ProveedoresPage />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -93,7 +100,9 @@ function App() {
                   path="/inventario"
                   element={
                     <PrivateRoute>
-                      <Inventario />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.ALMACENISTA, ROLES.VETERINARIO]}>
+                        <Inventario />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -102,7 +111,9 @@ function App() {
                   path="/especialidades"
                   element={
                     <PrivateRoute>
-                      <Especialidades />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN]}>
+                        <Especialidades />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -111,7 +122,9 @@ function App() {
                   path="/horarios"
                   element={
                     <PrivateRoute>
-                      <Schedules />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN]}>
+                        <Schedules />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -120,7 +133,9 @@ function App() {
                   path="/donaciones"
                   element={
                     <PrivateRoute>
-                      <Donaciones />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.RECEPCIONISTA]}>
+                        <Donaciones />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -129,7 +144,20 @@ function App() {
                   path="/servicios-veterinarios"
                   element={
                     <PrivateRoute>
-                      <ServiciosVeterinarios />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.VETERINARIO]}>
+                        <ServiciosVeterinarios />
+                      </RoleGuard>
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/mis-citas"
+                  element={
+                    <PrivateRoute>
+                      <RoleGuard allowedRoles={[ROLES.VETERINARIO]}>
+                        <CitasVeterinario />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -138,7 +166,9 @@ function App() {
                   path="/citas"
                   element={
                     <PrivateRoute>
-                      <CitasAdmin />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.RECEPCIONISTA, ROLES.VETERINARIO]}>
+                        <CitasAdmin />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -147,7 +177,9 @@ function App() {
                   path="/pagos"
                   element={
                     <PrivateRoute>
-                      <PagosAdmin />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.RECEPCIONISTA]}>
+                        <PagosAdmin />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -156,7 +188,9 @@ function App() {
                   path="/cobranza"
                   element={
                     <PrivateRoute>
-                      <CobranzaAdmin />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.RECEPCIONISTA]}>
+                        <CobranzaAdmin />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -165,7 +199,9 @@ function App() {
                   path="/salas"
                   element={
                     <PrivateRoute>
-                      <Salas />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN]}>
+                        <Salas />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -174,7 +210,9 @@ function App() {
                   path="/expedientes"
                   element={
                     <PrivateRoute>
-                      <Expedientes />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.VETERINARIO]}>
+                        <Expedientes />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />
@@ -183,7 +221,9 @@ function App() {
                   path="/tickets"
                   element={
                     <PrivateRoute>
-                      <Tickets />
+                      <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.VETERINARIO, ROLES.RECEPCIONISTA]}>
+                        <Tickets />
+                      </RoleGuard>
                     </PrivateRoute>
                   }
                 />

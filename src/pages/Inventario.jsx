@@ -15,8 +15,12 @@ export default function Inventario() {
 
   const loadInventario = async () => {
     try {
-      const data = await inventarioService.getInventario();
-      setItems(data);
+      const response = await inventarioService.getInventario();
+      if (response.success) {
+        setItems(response.data || []);
+      } else {
+        setError("No se pudo cargar el inventario");
+      }
     } catch (err) {
       console.error(err);
       setError("No se pudo cargar el inventario");

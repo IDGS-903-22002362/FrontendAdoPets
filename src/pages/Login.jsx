@@ -126,31 +126,7 @@ const Login = () => {
               />
             </div>
 
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="rememberMe"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="rememberMe"
-                  className="ml-2 block text-sm text-gray-700"
-                >
-                  Recordarme
-                </label>
-              </div>
-              <Link
-                to="/forgot-password"
-                className="text-sm text-primary hover:text-primary-dark"
-              >
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
+
 
             {/* Submit Button */}
             <button
@@ -187,29 +163,6 @@ const Login = () => {
               )}
             </button>
           </form>
-
-          {/* Register Link */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              ¿No tienes una cuenta?{" "}
-              <Link
-                to="/register"
-                className="font-medium text-primary hover:text-primary-dark"
-              >
-                Regístrate aquí
-              </Link>
-            </p>
-          </div>
-        </div>
-
-        {/* Back to Home */}
-        <div className="mt-6 text-center">
-          <Link
-            to="/"
-            className="text-gray-600 hover:text-primary transition-colors"
-          >
-            ← Volver al inicio
-          </Link>
         </div>
       </div>
     </div>

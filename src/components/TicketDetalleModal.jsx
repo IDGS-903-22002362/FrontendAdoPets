@@ -1,7 +1,6 @@
-import { X, Download, Receipt, Calendar, User, Stethoscope, PawPrint } from 'lucide-react';
-import PropTypes from 'prop-types';
+import { MdClose } from 'react-icons/md';
 
-const TicketDetalleModal = ({ isOpen, onClose, ticket, onDownloadPdf }) => {
+const TicketDetalleModal = ({ isOpen, onClose, ticket }) => {
   if (!isOpen || !ticket) return null;
 
   const formatCurrency = (amount) => {
@@ -42,258 +41,193 @@ const TicketDetalleModal = ({ isOpen, onClose, ticket, onDownloadPdf }) => {
     return estados[estado] || 'Desconocido';
   };
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={onClose}></div>
+  const getEstadoColor = (estado) => {
+    const colores = {
+      1: 'bg-yellow-100 text-yellow-800',
+      2: 'bg-green-100 text-green-800',
+      3: 'bg-red-100 text-red-800',
+      4: 'bg-blue-100 text-blue-800'
+    };
+    return colores[estado] || 'bg-gray-100 text-gray-800';
+  };
 
-        <div className="inline-block w-full max-w-4xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl">
-          {/* Header */}
-          <div className="bg-blue-600 px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/20 rounded-lg">
-                  <Receipt className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">Detalle del Ticket</h3>
-                  <p className="text-blue-100 text-sm font-mono">{ticket.numeroTicket}</p>
-                </div>
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+      <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
+        <div className="flex justify-between items-center mb-6 sticky top-0 bg-white pb-4 border-b">
+          <h2 className="text-2xl font-bold text-gray-800">Detalle del Ticket</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <MdClose size={24} />
+          </button>
+        </div>
+
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600 mb-1">Número de Ticket</p>
+              <p className="text-xl font-bold text-blue-800">{ticket.numeroTicket}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600 mb-1">Estado</p>
+              <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getEstadoColor(ticket.estado)}`}>
+                {getEstadoLabel(ticket.estado)}
+              </span>
+            </div>
+          </div>
+
+          <div className="border-t pt-4">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">Información General</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600">Cliente</p>
+                <p className="font-medium text-gray-900">{ticket.nombreCliente}</p>
               </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => onDownloadPdf(ticket.id)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-                  title="Descargar PDF"
-                >
-                  <Download className="h-6 w-6 text-white" />
-                </button>
-                <button
-                  onClick={onClose}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-                >
-                  <X className="h-6 w-6 text-white" />
-                </button>
+              <div>
+                <p className="text-sm text-gray-600">Mascota</p>
+                <p className="font-medium text-gray-900">{ticket.nombreMascota || 'N/A'}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Veterinario</p>
+                <p className="font-medium text-gray-900">{ticket.nombreVeterinario}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Fecha del Procedimiento</p>
+                <p className="font-medium text-gray-900">{formatDate(ticket.fechaProcedimiento)}</p>
               </div>
             </div>
           </div>
 
-          <div className="p-6 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
-            {/* Información del Ticket */}
-            <div className="bg-gray-50 rounded-xl p-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div>
-                  <p className="text-xs font-semibold text-gray-600 mb-1">Estado</p>
-                  <p className="text-sm font-bold text-gray-900">{getEstadoLabel(ticket.estado)}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-gray-600 mb-1">Fecha Procedimiento</p>
-                  <p className="text-sm text-gray-900">{formatDate(ticket.fechaProcedimiento)}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-gray-600 mb-1">Fecha Creación</p>
-                  <p className="text-sm text-gray-900">{formatDate(ticket.createdAt)}</p>
-                </div>
-                {ticket.fechaEntrega && (
-                  <div>
-                    <p className="text-xs font-semibold text-gray-600 mb-1">Fecha Entrega</p>
-                    <p className="text-sm text-gray-900">{formatDate(ticket.fechaEntrega)}</p>
-                  </div>
-                )}
+          <div className="border-t pt-4">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">Procedimiento</h3>
+            <div className="space-y-3">
+              <div>
+                <p className="text-sm text-gray-600">Nombre</p>
+                <p className="font-medium text-gray-900">{ticket.nombreProcedimiento}</p>
               </div>
-            </div>
-
-            {/* Información de Participantes */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Cliente */}
-              <div className="bg-blue-50 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <User className="h-5 w-5 text-blue-600" />
-                  <h4 className="font-semibold text-blue-900">Cliente</h4>
-                </div>
-                <p className="text-sm text-gray-900 font-medium">{ticket.nombreCliente}</p>
+              <div>
+                <p className="text-sm text-gray-600">Descripción</p>
+                <p className="text-gray-900">{ticket.descripcionProcedimiento || 'Sin descripción'}</p>
               </div>
-
-              {/* Veterinario */}
-              <div className="bg-green-50 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Stethoscope className="h-5 w-5 text-green-600" />
-                  <h4 className="font-semibold text-green-900">Veterinario</h4>
+              {ticket.diagnostico && (
+                <div>
+                  <p className="text-sm text-gray-600">Diagnóstico</p>
+                  <p className="text-gray-900">{ticket.diagnostico}</p>
                 </div>
-                <p className="text-sm text-gray-900 font-medium">{ticket.nombreVeterinario}</p>
-              </div>
-
-              {/* Mascota */}
-              {ticket.nombreMascota && (
-                <div className="bg-pink-50 rounded-xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <PawPrint className="h-5 w-5 text-pink-600" />
-                    <h4 className="font-semibold text-pink-900">Mascota</h4>
-                  </div>
-                  <p className="text-sm text-gray-900 font-medium">{ticket.nombreMascota}</p>
+              )}
+              {ticket.tratamiento && (
+                <div>
+                  <p className="text-sm text-gray-600">Tratamiento</p>
+                  <p className="text-gray-900">{ticket.tratamiento}</p>
+                </div>
+              )}
+              {ticket.medicacionPrescrita && (
+                <div>
+                  <p className="text-sm text-gray-600">Medicación Prescrita</p>
+                  <p className="text-gray-900">{ticket.medicacionPrescrita}</p>
+                </div>
+              )}
+              {ticket.observaciones && (
+                <div>
+                  <p className="text-sm text-gray-600">Observaciones</p>
+                  <p className="text-gray-900">{ticket.observaciones}</p>
                 </div>
               )}
             </div>
+          </div>
 
-            {/* Procedimiento */}
-            <div className="border border-gray-200 rounded-xl p-4">
-              <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-blue-600" />
-                Procedimiento Realizado
-              </h4>
-              <div className="space-y-2">
-                <div>
-                  <p className="text-sm font-semibold text-blue-600">Nombre:</p>
-                  <p className="text-sm text-gray-900">{ticket.nombreProcedimiento}</p>
-                </div>
-                {ticket.descripcionProcedimiento && (
-                  <div>
-                    <p className="text-sm font-semibold text-blue-600">Descripción:</p>
-                    <p className="text-sm text-gray-700">{ticket.descripcionProcedimiento}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Detalles del Ticket */}
-            {ticket.detalles && ticket.detalles.length > 0 && (
-              <div className="border border-gray-200 rounded-xl overflow-hidden">
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
-                  <h4 className="font-semibold text-gray-900">Detalles del Servicio</h4>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-700">Descripción</th>
-                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-700">Tipo</th>
-                        <th className="px-4 py-2 text-center text-xs font-semibold text-gray-700">Cantidad</th>
-                        <th className="px-4 py-2 text-center text-xs font-semibold text-gray-700">Unidad</th>
-                        <th className="px-4 py-2 text-right text-xs font-semibold text-gray-700">P. Unitario</th>
-                        <th className="px-4 py-2 text-right text-xs font-semibold text-gray-700">Subtotal</th>
+          {ticket.detalles && ticket.detalles.length > 0 && (
+            <div className="border-t pt-4">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">Detalles de Insumos/Servicios</h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Descripción</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipo</th>
+                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Cantidad</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unidad</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">P. Unitario</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {ticket.detalles.map((detalle) => (
+                      <tr key={detalle.id}>
+                        <td className="px-4 py-3 text-sm text-gray-900">{detalle.descripcion}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{detalle.tipoNombre || 'N/A'}</td>
+                        <td className="px-4 py-3 text-sm text-center text-gray-900">{detalle.cantidad}</td>
+                        <td className="px-4 py-3 text-sm text-gray-900">{detalle.unidad}</td>
+                        <td className="px-4 py-3 text-sm text-right text-gray-900">{formatCurrency(detalle.precioUnitario)}</td>
+                        <td className="px-4 py-3 text-sm text-right font-medium text-gray-900">{formatCurrency(detalle.subtotal)}</td>
                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {ticket.detalles.map((detalle) => (
-                        <tr key={detalle.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-2 text-sm text-gray-900">{detalle.descripcion}</td>
-                          <td className="px-4 py-2 text-sm">
-                            <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
-                              {getTipoLabel(detalle.tipo)}
-                            </span>
-                          </td>
-                          <td className="px-4 py-2 text-sm text-center">{detalle.cantidad}</td>
-                          <td className="px-4 py-2 text-sm text-center">{detalle.unidad || '-'}</td>
-                          <td className="px-4 py-2 text-sm text-right">{formatCurrency(detalle.precioUnitario)}</td>
-                          <td className="px-4 py-2 text-sm text-right font-semibold">{formatCurrency(detalle.subtotal)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
-            {/* Resumen de Costos */}
-            <div className="bg-gray-50 rounded-xl p-6">
-              <h4 className="font-semibold text-gray-900 mb-4">Resumen de Costos</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-700">Costo del Procedimiento:</span>
-                  <span className="text-sm font-medium text-gray-900">{formatCurrency(ticket.costoProcedimiento)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-700">Costo de Insumos:</span>
-                  <span className="text-sm font-medium text-gray-900">{formatCurrency(ticket.costoInsumos)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-700">Costos Adicionales:</span>
-                  <span className="text-sm font-medium text-gray-900">{formatCurrency(ticket.costoAdicional)}</span>
-                </div>
-                <div className="border-t border-gray-200 pt-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-semibold text-gray-700">Subtotal:</span>
-                    <span className="text-sm font-semibold text-gray-900">{formatCurrency(ticket.subtotal)}</span>
-                  </div>
-                </div>
-                {ticket.descuento > 0 && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-green-700">Descuento:</span>
-                    <span className="text-sm font-medium text-green-700">-{formatCurrency(ticket.descuento)}</span>
-                  </div>
-                )}
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-700">IVA (16%):</span>
-                  <span className="text-sm font-medium text-gray-900">{formatCurrency(ticket.iva)}</span>
-                </div>
-                <div className="border-t-2 border-gray-300 pt-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-bold text-gray-900">Total:</span>
-                    <span className="text-2xl font-bold text-blue-600">{formatCurrency(ticket.total)}</span>
-                  </div>
-                </div>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
+          )}
 
-            {/* Información Médica */}
-            {(ticket.diagnostico || ticket.tratamiento || ticket.medicacionPrescrita) && (
-              <div className="border border-gray-200 rounded-xl p-4 space-y-4">
-                <h4 className="font-semibold text-gray-900">Información Médica</h4>
-                {ticket.diagnostico && (
-                  <div>
-                    <p className="text-sm font-semibold text-blue-600 mb-1">Diagnóstico:</p>
-                    <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg">{ticket.diagnostico}</p>
-                  </div>
-                )}
-                {ticket.tratamiento && (
-                  <div>
-                    <p className="text-sm font-semibold text-blue-600 mb-1">Tratamiento:</p>
-                    <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg">{ticket.tratamiento}</p>
-                  </div>
-                )}
-                {ticket.medicacionPrescrita && (
-                  <div>
-                    <p className="text-sm font-semibold text-blue-600 mb-1">Medicación Prescrita:</p>
-                    <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg">{ticket.medicacionPrescrita}</p>
-                  </div>
-                )}
+          <div className="border-t pt-4">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">Resumen de Costos</h3>
+            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Costo Procedimiento:</span>
+                <span className="font-medium text-gray-900">{formatCurrency(ticket.costoProcedimiento)}</span>
               </div>
-            )}
-
-            {/* Observaciones */}
-            {ticket.observaciones && (
-              <div className="border border-gray-200 rounded-xl p-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Observaciones</h4>
-                <p className="text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">{ticket.observaciones}</p>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Costo Insumos:</span>
+                <span className="font-medium text-gray-900">{formatCurrency(ticket.costoInsumos)}</span>
               </div>
-            )}
-          </div>
-
-          {/* Footer */}
-          <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
-            <div className="flex justify-between items-center">
-              <p className="text-xs text-gray-500">
-                Ticket generado el {formatDate(ticket.createdAt)}
-              </p>
-              <button
-                onClick={onClose}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Cerrar
-              </button>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Costo Adicional:</span>
+                <span className="font-medium text-gray-900">{formatCurrency(ticket.costoAdicional)}</span>
+              </div>
+              <div className="flex justify-between border-t pt-2">
+                <span className="text-gray-600">Subtotal:</span>
+                <span className="font-medium text-gray-900">{formatCurrency(ticket.subtotal)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Descuento:</span>
+                <span className="font-medium text-red-600">-{formatCurrency(ticket.descuento)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">IVA (16%):</span>
+                <span className="font-medium text-gray-900">{formatCurrency(ticket.iva)}</span>
+              </div>
+              <div className="flex justify-between border-t pt-2">
+                <span className="text-lg font-semibold text-gray-800">Total:</span>
+                <span className="text-lg font-bold text-blue-600">{formatCurrency(ticket.total)}</span>
+              </div>
             </div>
           </div>
+
+          <div className="border-t pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+              <div>
+                <p>Fecha de Creación:</p>
+                <p className="font-medium text-gray-900">{formatDate(ticket.createdAt)}</p>
+              </div>
+              {ticket.fechaEntrega && (
+                <div>
+                  <p>Fecha de Entrega:</p>
+                  <p className="font-medium text-gray-900">{formatDate(ticket.fechaEntrega)}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end mt-6 pt-4 border-t sticky bottom-0 bg-white">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            Cerrar
+          </button>
         </div>
       </div>
     </div>
   );
-};
-
-TicketDetalleModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  ticket: PropTypes.object,
-  onDownloadPdf: PropTypes.func.isRequired
 };
 
 export default TicketDetalleModal;

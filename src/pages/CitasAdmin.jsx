@@ -16,11 +16,11 @@ import useSalas from "../hooks/useSalas";
 const statusStyles = {
   Programada: {
     label: "Programada",
-    color: "bg-blue-50 text-blue-800 border border-blue-100",
+    color: "bg-yellow-50 text-yellow-800 border border-yellow-100",
   },
   EnProceso: {
     label: "En proceso",
-    color: "bg-indigo-50 text-indigo-800 border border-indigo-100",
+    color: "bg-blue-50 text-blue-800 border border-blue-100",
   },
   Completada: {
     label: "Completada",
@@ -33,10 +33,6 @@ const statusStyles = {
   NoAsistio: {
     label: "No asistió",
     color: "bg-gray-100 text-gray-700 border border-gray-200",
-  },
-  Pendiente: {
-    label: "Pendiente",
-    color: "bg-amber-50 text-amber-800 border border-amber-100",
   },
 };
 
@@ -91,10 +87,12 @@ const tipoKeyFromValue = (value) => {
   if (typeof value === "string") return value;
   const map = {
     1: "Consulta",
-    2: "Vacunacion",
-    3: "Procedimiento",
-    4: "Cirugia",
-    5: "Emergencia",
+    2: "Cirugia",
+    3: "Bano",
+    4: "Vacuna",
+    5: "Procedimiento",
+    6: "Urgencia",
+    7: "Seguimiento",
   };
   return map[value] || "Consulta";
 };
@@ -103,10 +101,12 @@ const tipoValueForApi = (value) => {
   if (typeof value === "number") return value;
   const map = {
     Consulta: 1,
-    Vacunacion: 2,
-    Procedimiento: 3,
-    Cirugia: 4,
-    Emergencia: 5,
+    Cirugia: 2,
+    Bano: 3,
+    Vacuna: 4,
+    Procedimiento: 5,
+    Urgencia: 6,
+    Seguimiento: 7,
   };
   return map[value] || 1;
 };
@@ -163,17 +163,16 @@ const normalizeDateTimeLocal = (value) => {
 };
 
 const statusKeyFromValue = (value) => {
-  if (!value && value !== 0) return "Pendiente";
+  if (!value && value !== 0) return "Programada";
   if (typeof value === "string") return value;
   const map = {
-    0: "Pendiente",
     1: "Programada",
-    2: "EnProceso",
-    3: "Completada",
-    4: "Cancelada",
-    5: "NoAsistio",
+    2: "Completada",
+    3: "Cancelada",
+    4: "NoAsistio",
+    5: "EnProceso",
   };
-  return map[value] || "Pendiente";
+  return map[value] || "Programada";
 };
 
 const digitalStatusKeyFromValue = (value) => {
@@ -964,7 +963,7 @@ const CitasAdmin = () => {
                       cita.status ?? cita.estado
                     );
                     const statusInfo =
-                      statusStyles[statusKey] || statusStyles.Pendiente;
+                      statusStyles[statusKey] || statusStyles.Programada;
                     const tipoKey = tipoKeyFromValue(cita.tipo);
                     return (
                       <tr
