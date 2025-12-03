@@ -3,25 +3,24 @@ import { MdAttachMoney, MdSearch } from "react-icons/md";
 import usePagos from "../hooks/usePagos";
 
 const estadoStyles = {
-  0: { label: "Pendiente", color: "bg-yellow-50 text-yellow-800 border border-yellow-200" },
-  1: { label: "En proceso", color: "bg-blue-50 text-blue-800 border border-blue-200" },
+  1: { label: "Pendiente", color: "bg-yellow-50 text-yellow-800 border border-yellow-200" },
   2: { label: "Completado", color: "bg-green-50 text-green-800 border border-green-200" },
-  3: { label: "Cancelado", color: "bg-red-50 text-red-800 border border-red-200" },
-  4: { label: "Reembolsado", color: "bg-gray-100 text-gray-700 border border-gray-200" },
+  3: { label: "Fallido", color: "bg-orange-50 text-orange-800 border border-orange-200" },
+  4: { label: "Cancelado", color: "bg-red-50 text-red-800 border border-red-200" },
+  5: { label: "Reembolsado", color: "bg-gray-100 text-gray-700 border border-gray-200" },
 };
 
 const tipoPagoOptions = {
-  1: "Consulta",
-  2: "Cirug\u00eda",
-  3: "Medicamento",
-  4: "Otro",
+  1: "Normal",
+  2: "Anticipo",
+  3: "Saldo",
 };
 
 const metodoPagoOptions = {
-  1: "Efectivo",
-  2: "Tarjeta",
-  3: "Transferencia",
-  4: "PayPal",
+  1: "PayPal",
+  2: "Efectivo",
+  3: "Tarjeta",
+  4: "Transferencia",
 };
 
 const formatCurrency = (amount, currency = "MXN") =>
@@ -164,7 +163,7 @@ const PagosAdmin = () => {
                   </tr>
                 ) : (
                   pagos.map((pago) => {
-                    const estadoInfo = estadoStyles[pago.estado] || estadoStyles[0];
+                    const estadoInfo = estadoStyles[pago.estado] || estadoStyles[1];
                     return (
                       <tr key={pago.id || pago.numeroPago} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">

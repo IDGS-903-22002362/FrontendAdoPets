@@ -99,7 +99,7 @@ const usePagos = () => {
       setPagos((prev) =>
         prev.map((pago) =>
           pago.id === id
-            ? { ...pago, estado: 3, estadoNombre: "Cancelado" }
+            ? { ...pago, estado: 4, estadoNombre: "Cancelado" }
             : pago
         )
       );

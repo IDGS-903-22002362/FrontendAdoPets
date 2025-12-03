@@ -5,6 +5,7 @@ class CitasService {
   async list(params = {}) {
     try {
       const response = await apiClient.get(ENDPOINTS.CITAS.BASE, { params });
+      console.log("📋 Citas recibidas del backend:", response.data?.data);
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -41,11 +42,22 @@ class CitasService {
     }
   }
 
-  async getByRango(startDate, endDate) {
+  async getByPropietario(propietarioId) {
     try {
-      const response = await apiClient.get(ENDPOINTS.CITAS.POR_RANGO, {
-        params: { startDate, endDate },
-      });
+      const response = await apiClient.get(
+        ENDPOINTS.CITAS.POR_PROPIETARIO(propietarioId)
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async getBySolicitud(solicitudId) {
+    try {
+      const response = await apiClient.get(
+        ENDPOINTS.CITAS.POR_SOLICITUD(solicitudId)
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -83,11 +95,18 @@ class CitasService {
 
   async cancelar(id, motivoRechazo) {
     try {
-      const response = await apiClient.patch(ENDPOINTS.CITAS.CANCELAR(id), {
+      console.log("🔵 Cancelando cita:", { id, motivoRechazo });
+      const response = await apiClient.put(ENDPOINTS.CITAS.CANCELAR(id), {
         motivoRechazo: motivoRechazo || "Cancelada por el usuario",
       });
+      console.log("✅ Respuesta de cancelación:", response.data);
       return response.data;
     } catch (error) {
+      console.error("❌ Error al cancelar cita:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
       throw this.handleError(error);
     }
   }

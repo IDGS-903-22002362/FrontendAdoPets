@@ -27,13 +27,11 @@ const useCitas = () => {
         });
       } else if (filters.status !== undefined && filters.status !== "") {
         response = await citasService.getByEstado(filters.status);
-      } else if (filters.startDate && filters.endDate) {
-        response = await citasService.getByRango(
-          filters.startDate,
-          filters.endDate
-        );
       } else {
-        response = await citasService.list();
+        response = await citasService.list({
+          startDate: filters.startDate,
+          endDate: filters.endDate,
+        });
       }
 
       const data = mapCitasResponse(response);

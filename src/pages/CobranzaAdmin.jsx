@@ -10,25 +10,24 @@ import {
 import usePagos from "../hooks/usePagos";
 
 const estadoStyles = {
-  0: { label: "Pendiente", color: "bg-yellow-50 text-yellow-800 border border-yellow-200" },
-  1: { label: "En proceso", color: "bg-blue-50 text-blue-800 border border-blue-200" },
+  1: { label: "Pendiente", color: "bg-yellow-50 text-yellow-800 border border-yellow-200" },
   2: { label: "Completado", color: "bg-green-50 text-green-800 border border-green-200" },
-  3: { label: "Cancelado", color: "bg-red-50 text-red-800 border border-red-200" },
-  4: { label: "Reembolsado", color: "bg-gray-100 text-gray-700 border border-gray-200" },
+  3: { label: "Fallido", color: "bg-orange-50 text-orange-800 border border-orange-200" },
+  4: { label: "Cancelado", color: "bg-red-50 text-red-800 border border-red-200" },
+  5: { label: "Reembolsado", color: "bg-gray-100 text-gray-700 border border-gray-200" },
 };
 
 const tipoPagoOptions = {
-  1: "Consulta",
-  2: "Cirug\u00eda",
-  3: "Medicamento",
-  4: "Otro",
+  1: "Normal",
+  2: "Anticipo",
+  3: "Saldo",
 };
 
 const metodoPagoOptions = {
-  1: "Efectivo",
-  2: "Tarjeta",
-  3: "Transferencia",
-  4: "PayPal",
+  1: "PayPal",
+  2: "Efectivo",
+  3: "Tarjeta",
+  4: "Transferencia",
 };
 
 const initialPagoForm = {
@@ -36,18 +35,16 @@ const initialPagoForm = {
   monto: "",
   moneda: "MXN",
   tipo: "1",
-  metodo: "1",
+  metodo: "2",
   concepto: "",
-  referencia: "",
   citaId: "",
   esAnticipo: false,
-  montoTotal: "",
 };
 
 const initialPaypalForm = {
   usuarioId: "",
   monto: "",
-  concepto: "",
+  conceptoPago: "",
   solicitudCitaId: "",
   citaId: "",
   esAnticipo: false,
@@ -88,12 +85,16 @@ const CobranzaAdmin = () => {
   };
 
   const handleCreatePago = async () => {
+    const tipoValue = pagoForm.esAnticipo ? 2 : Number(pagoForm.tipo);
     const payload = {
-      ...pagoForm,
+      usuarioId: pagoForm.usuarioId.trim(),
+      citaId: pagoForm.citaId ? pagoForm.citaId.trim() : undefined,
       monto: Number(pagoForm.monto),
-      tipo: Number(pagoForm.tipo),
+      moneda: pagoForm.moneda || "MXN",
+      tipo: tipoValue,
       metodo: Number(pagoForm.metodo),
-      montoTotal: pagoForm.montoTotal ? Number(pagoForm.montoTotal) : undefined,
+      concepto: pagoForm.concepto,
+      esAnticipo: pagoForm.esAnticipo,
     };
     const result = await createPago(payload);
     if (result.success) {
@@ -115,10 +116,20 @@ const CobranzaAdmin = () => {
 
   const handleCreatePaypalOrder = async () => {
     const payload = {
-      ...paypalForm,
+      usuarioId: paypalForm.usuarioId.trim(),
       monto: Number(paypalForm.monto),
+      conceptoPago: paypalForm.conceptoPago,
+      esAnticipo: paypalForm.esAnticipo,
       montoTotal: paypalForm.montoTotal ? Number(paypalForm.montoTotal) : undefined,
+      returnUrl: paypalForm.returnUrl || undefined,
+      cancelUrl: paypalForm.cancelUrl || undefined,
     };
+    if (paypalForm.solicitudCitaId) {
+      payload.solicitudCitaId = paypalForm.solicitudCitaId.trim();
+    }
+    if (paypalForm.citaId) {
+      payload.citaId = paypalForm.citaId.trim();
+    }
     const result = await createPaypalOrder(payload);
     if (result.success) {
       setPaypalOrderResult(result.data);
@@ -259,26 +270,6 @@ const CobranzaAdmin = () => {
                   placeholder="Detalle breve"
                 />
               </div>
-              <div>
-                <label className="text-sm text-gray-600">Referencia</label>
-                <input
-                  value={pagoForm.referencia}
-                  onChange={(e) => setPagoForm({ ...pagoForm, referencia: e.target.value })}
-                  className="input-field"
-                  placeholder="Folio / referencia externa"
-                />
-              </div>
-              <div>
-                <label className="text-sm text-gray-600">Monto total (opcional)</label>
-                <input
-                  type="number"
-                  value={pagoForm.montoTotal}
-                  onChange={(e) => setPagoForm({ ...pagoForm, montoTotal: e.target.value })}
-                  className="input-field"
-                  min="0"
-                  step="0.01"
-                />
-              </div>
               <div className="flex items-center gap-2">
                 <input
                   id="anticipo"
@@ -329,10 +320,10 @@ const CobranzaAdmin = () => {
                 />
               </div>
               <div>
-                <label className="text-sm text-gray-600">Concepto</label>
+                <label className="text-sm text-gray-600">Concepto de pago</label>
                 <input
-                  value={paypalForm.concepto}
-                  onChange={(e) => setPaypalForm({ ...paypalForm, concepto: e.target.value })}
+                  value={paypalForm.conceptoPago}
+                  onChange={(e) => setPaypalForm({ ...paypalForm, conceptoPago: e.target.value })}
                   className="input-field"
                 />
               </div>
@@ -522,7 +513,7 @@ const CobranzaAdmin = () => {
                   </tr>
                 ) : (
                   pagos.map((pago) => {
-                    const estadoInfo = estadoStyles[pago.estado] || estadoStyles[0];
+                    const estadoInfo = estadoStyles[pago.estado] || estadoStyles[1];
                     return (
                       <tr key={pago.id || pago.numeroPago} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -552,7 +543,7 @@ const CobranzaAdmin = () => {
                           <button
                             className="text-red-600 hover:text-red-800 flex items-center gap-1"
                             onClick={() => setCancelInfo({ id: pago.id, motivo: "" })}
-                            disabled={pago.estado === 3 || loading}
+                            disabled={pago.estado === 4 || loading}
                           >
                             <MdCancel /> Cancelar
                           </button>
