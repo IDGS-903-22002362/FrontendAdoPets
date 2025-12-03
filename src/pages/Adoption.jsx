@@ -708,9 +708,7 @@ const Adoption = () => {
                                 {/* Acciones */}
                                 <div className="border-t border-gray-300 pt-4">
                                     <div className="flex flex-wrap gap-2 justify-end">
-                                        <button className="px-3 py-2 text-xs text-gray-700 border border-gray-300 rounded hover:bg-gray-50 bg-white">
-                                            Ver Documentos
-                                        </button>
+                                        
                                         
                                         {/* Estados donde NO se muestran botones de acción */}
                                         {![ESTADOS.Aprobada, ESTADOS.Rechazada, ESTADOS.Cancelada].includes(selectedSolicitud.estado) && (
