@@ -1,7 +1,8 @@
 // Configuración de la API
 export const API_CONFIG = {
   BASE_URL:
-    import.meta.env.VITE_API_BASE_URL || "http://192.168.100.5:5151/api/v1",
+    import.meta.env.VITE_API_BASE_URL ||
+    "https://adopetsbkd20251124143834-b0abacgfbsd5fbdz.canadacentral-01.azurewebsites.net/api/v1",
   TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000,
   HEADERS: {
     "Content-Type": "application/json",
@@ -79,14 +80,14 @@ export const ENDPOINTS = {
     RECHAZAR: "/solicitudescitasdigitales/rechazar",
   },
   DONACIONES: {
-    PUBLICAS: '/Donaciones/publicas',
-    POR_USUARIO: (usuarioId) => `/Donaciones/usuario/${usuarioId}`
+    PUBLICAS: "/Donaciones/publicas",
+    POR_USUARIO: (usuarioId) => `/Donaciones/usuario/${usuarioId}`,
   },
   SERVICIOS_VETERINARIOS: {
-    BASE: '/Servicios',
+    BASE: "/Servicios",
     BY_ID: (id) => `/Servicios/${id}`,
-    TODOS: '/Servicios/todos',
-    ACTIVAR: (id) => `/Servicios/${id}/activar`
+    TODOS: "/Servicios/todos",
+    ACTIVAR: (id) => `/Servicios/${id}/activar`,
   },
   SERVICIOS: {
     GETEMPLEADOS: "/Empleados",
