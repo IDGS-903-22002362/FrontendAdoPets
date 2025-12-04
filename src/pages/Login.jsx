@@ -31,14 +31,19 @@ const Login = () => {
     setLoading(true);
 
     try {
+      console.log("🚀 Enviando formulario de login");
       const result = await login(formData);
+      console.log("📨 Resultado del login:", result);
 
       if (result.success) {
+        console.log("✅ Navegando a dashboard...");
         navigate("/dashboard");
       } else {
-        setErrors(result.errors || [result.message]);
+        console.warn("⚠️ Login rechazado:", result);
+        setErrors(result.errors || [result.message || "Error desconocido"]);
       }
-    } catch {
+    } catch (error) {
+      console.error("❌ Excepción en handleSubmit:", error);
       setErrors(["Error al iniciar sesión. Por favor, intenta de nuevo."]);
     } finally {
       setLoading(false);

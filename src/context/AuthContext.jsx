@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import authService from '../services/auth.service';
-import { AuthContext } from './AuthContextValue';
+import React, { useState, useEffect, useContext } from "react";
+import authService from "../services/auth.service";
+import { AuthContext } from "./AuthContextValue";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = authService.getStoredUser();
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
 
     if (storedUser && token) {
       setUser(storedUser);
@@ -20,20 +20,25 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
+      console.log("🔐 Intentando login con:", credentials.email);
       const response = await authService.login(credentials);
-      
+      console.log("📦 Respuesta del servicio:", response);
+
       if (response.success) {
+        console.log("✅ Login exitoso, usuario:", response.data.usuario);
         setUser(response.data.usuario);
         setIsAuthenticated(true);
         return { success: true };
       }
-      
+
+      console.warn("⚠️ Login falló:", response.message);
       return { success: false, message: response.message };
     } catch (error) {
-      return { 
-        success: false, 
-        message: error.message || 'Error al iniciar sesión',
-        errors: error.errors || []
+      console.error("❌ Error en login:", error);
+      return {
+        success: false,
+        message: error.message || "Error al iniciar sesión",
+        errors: error.errors || [],
       };
     }
   };
@@ -41,19 +46,19 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await authService.register(userData);
-      
+
       if (response.success) {
         setUser(response.data.usuario);
         setIsAuthenticated(true);
         return { success: true };
       }
-      
+
       return { success: false, message: response.message };
     } catch (error) {
-      return { 
-        success: false, 
-        message: error.message || 'Error al registrarse',
-        errors: error.errors || []
+      return {
+        success: false,
+        message: error.message || "Error al registrarse",
+        errors: error.errors || [],
       };
     }
   };
@@ -66,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateUser = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const hasRole = (role) => {
@@ -74,16 +79,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      isAuthenticated,
-      loading,
-      login,
-      register,
-      logout,
-      updateUser,
-      hasRole,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        loading,
+        login,
+        register,
+        logout,
+        updateUser,
+        hasRole,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

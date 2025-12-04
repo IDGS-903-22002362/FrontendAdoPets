@@ -6,7 +6,6 @@ import RoleGuard from "./components/RoleGuard";
 import DashboardLayout from "./components/DashboardLayout";
 import { ROLES } from "./config/roles.config";
 
-
 // Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -32,6 +31,8 @@ import PagosAdmin from "./pages/PagosAdmin";
 import CobranzaAdmin from "./pages/CobranzaAdmin";
 import Expedientes from "./pages/Expedientes";
 import Tickets from "./pages/Tickets";
+import PaypalSuccess from "./pages/PaypalSuccess";
+import PaypalCancel from "./pages/PaypalCancel";
 
 function App() {
   return (
@@ -40,11 +41,15 @@ function App() {
         <PetProvider>
           <ServicesProvider>
             <Routes>
-              {/* Rutas Públicas */}
+              {/* Rutas Publicas */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/backend-test" element={<BackendTest />} />
+
+              {/* Rutas de PayPal - Deben ser publicas para callback */}
+              <Route path="/cobranza/success" element={<PaypalSuccess />} />
+              <Route path="/cobranza/cancel" element={<PaypalCancel />} />
               <Route
                 path="/dashboard"
                 element={
@@ -229,7 +234,7 @@ function App() {
                 />
               </Route>
 
-              {/* Página no encontrada */}
+              {/* Pagina no encontrada */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ServicesProvider>

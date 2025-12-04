@@ -1,5 +1,5 @@
-import apiClient from './api.service';
-import { ENDPOINTS } from '../config/api.config';
+import apiClient from "./api.service";
+import { ENDPOINTS } from "../config/api.config";
 
 class AuthService {
   /**
@@ -10,19 +10,34 @@ class AuthService {
   async login(credentials) {
     try {
       const response = await apiClient.post(ENDPOINTS.AUTH.LOGIN, credentials);
-      
-      if (response.data.success) {
-        const { accessToken, refreshToken, usuario } = response.data.data;
-        
+      console.log("🔍 Respuesta completa del backend:", response);
+      console.log("🔍 response.data:", response.data);
+
+      // Normalizar la respuesta (el backend puede usar 'data' o 'Data')
+      const responseData = response.data;
+      const success = responseData.success || responseData.Success;
+      const data = responseData.data || responseData.Data;
+      const message = responseData.message || responseData.Message;
+
+      console.log("🔍 Datos normalizados - success:", success, "data:", data);
+
+      if (success && data) {
+        const { accessToken, refreshToken, usuario } = data;
+        console.log("💾 Guardando en localStorage:", {
+          accessToken,
+          refreshToken,
+          usuario,
+        });
+
         // Guardar tokens y usuario en localStorage
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('user', JSON.stringify(usuario));
-        
-        return response.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("user", JSON.stringify(usuario));
+
+        return { success: true, data: { usuario }, message };
       }
-      
-      return response.data;
+
+      return { success: false, message };
     } catch (error) {
       throw this.handleError(error);
     }
@@ -36,17 +51,25 @@ class AuthService {
   async register(userData) {
     try {
       const response = await apiClient.post(ENDPOINTS.AUTH.REGISTER, userData);
-      
-      if (response.data.success) {
-        const { accessToken, refreshToken, usuario } = response.data.data;
-        
+
+      // Normalizar la respuesta
+      const responseData = response.data;
+      const success = responseData.success || responseData.Success;
+      const data = responseData.data || responseData.Data;
+      const message = responseData.message || responseData.Message;
+
+      if (success && data) {
+        const { accessToken, refreshToken, usuario } = data;
+
         // Guardar tokens y usuario en localStorage
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('user', JSON.stringify(usuario));
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("user", JSON.stringify(usuario));
+
+        return { success: true, data: { usuario }, message };
       }
-      
-      return response.data;
+
+      return { success: false, message };
     } catch (error) {
       throw this.handleError(error);
     }
@@ -60,12 +83,12 @@ class AuthService {
     try {
       await apiClient.post(ENDPOINTS.AUTH.LOGOUT);
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     } finally {
       // Limpiar localStorage
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
     }
   }
 
@@ -89,7 +112,10 @@ class AuthService {
    */
   async changePassword(passwordData) {
     try {
-      const response = await apiClient.post(ENDPOINTS.AUTH.CHANGE_PASSWORD, passwordData);
+      const response = await apiClient.post(
+        ENDPOINTS.AUTH.CHANGE_PASSWORD,
+        passwordData
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -101,7 +127,7 @@ class AuthService {
    * @returns {boolean}
    */
   isAuthenticated() {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     return !!token;
   }
 
@@ -110,7 +136,7 @@ class AuthService {
    * @returns {Object|null}
    */
   getStoredUser() {
-    const userStr = localStorage.getItem('user');
+    const userStr = localStorage.getItem("user");
     return userStr ? JSON.parse(userStr) : null;
   }
 
@@ -134,21 +160,25 @@ class AuthService {
       // El servidor respondió con un código de estado fuera del rango 2xx
       const { data, status } = error.response;
       return {
-        message: data?.message || 'Error en la solicitud',
+        message: data?.message || "Error en la solicitud",
         errors: data?.errors || [],
         status,
       };
     } else if (error.request) {
       // La solicitud se hizo pero no se recibió respuesta
       return {
-        message: 'No se pudo conectar con el servidor. Asegúrate de que el backend esté corriendo en http://localhost:5151',
-        errors: ['Verifica que tu backend .NET Core esté ejecutándose', 'Verifica que CORS esté configurado correctamente'],
+        message:
+          "No se pudo conectar con el servidor. Asegúrate de que el backend esté corriendo en http://localhost:5151",
+        errors: [
+          "Verifica que tu backend .NET Core esté ejecutándose",
+          "Verifica que CORS esté configurado correctamente",
+        ],
         status: 0,
       };
     } else {
       // Algo sucedió al configurar la solicitud
       return {
-        message: error.message || 'Error desconocido',
+        message: error.message || "Error desconocido",
         errors: [],
         status: 0,
       };

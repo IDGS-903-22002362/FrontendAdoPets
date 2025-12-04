@@ -15,11 +15,15 @@ const apiClient = axios.create({
 // Interceptor para agregar token a las peticiones
 apiClient.interceptors.request.use(
   (config) => {
-    // Solo loguear en desarrollo
+    // Solo loguear en desarrollo para evitar ruido en producción
     if (import.meta.env.DEV) {
-      console.log('Request:', config.method.toUpperCase(), config.url);
+      console.log("Request:", config.method.toUpperCase(), config.url);
+      if (config.data) {
+        console.log("Request data:", config.data);
+      }
+      console.log("Request headers:", config.headers);
     }
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -61,20 +65,37 @@ apiClient.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
+          console.log("🔄 Intentando refrescar token...");
           // Intentar refrescar el token
           const response = await axios.post(
             `${API_CONFIG.BASE_URL}/auth/refresh-token`,
-            { refreshToken }
+            { refreshToken },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
           );
 
-          const { accessToken } = response.data.data;
-          localStorage.setItem("accessToken", accessToken);
+          console.log("✅ Respuesta refresh:", response.data);
 
-          // Reintentar la petición original
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return apiClient(originalRequest);
+          // Normalizar respuesta (manejar mayúsculas/minúsculas)
+          const responseData = response.data;
+          const data = responseData.data || responseData.Data;
+          const accessToken = data?.accessToken;
+
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+
+            // Reintentar la petición original
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+            return apiClient(originalRequest);
+          } else {
+            throw new Error("No se recibió accessToken en la respuesta");
+          }
         }
       } catch (refreshError) {
+        console.error("❌ Error al refrescar token:", refreshError);
         // Si falla el refresh, limpiar tokens y redirigir al login
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");

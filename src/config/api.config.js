@@ -61,13 +61,19 @@ export const ENDPOINTS = {
     POR_SOLICITUD: (id) => `/citas/solicitud/${id}`,
   },
   PAGOS: {
-    BASE: "/pagos",
-    BY_ID: (id) => `/pagos/${id}`,
-    POR_USUARIO: (usuarioId) => `/pagos/usuario/${usuarioId}`,
-    PAYPAL_ORDER: "/pagos/paypal/create-order",
-    PAYPAL_CAPTURE: "/pagos/paypal/capture",
-    PAYPAL_BY_ORDER: (orderId) => `/pagos/paypal/${orderId}`,
-    CANCELAR: (id) => `/pagos/${id}/cancelar`,
+    BASE: "/Pagos",
+    BY_ID: (id) => `/Pagos/${id}`,
+    POR_USUARIO: (usuarioId) => `/Pagos/usuario/${usuarioId}`,
+    POR_CITA: (citaId) => `/Pagos/cita/${citaId}`,
+    PENDIENTES: "/Pagos/pendientes",
+    PENDIENTES_USUARIO: (usuarioId) => `/Pagos/pendientes/usuario/${usuarioId}`,
+    COMPLETAR_PAGO: "/Pagos/completar-pago",
+    COMPLETAR_PAGO_PAYPAL: "/Pagos/completar-pago/paypal", // Para citas con anticipo (50%)
+    CREAR_PAGO_COMPLETO_PAYPAL: "/Pagos/crear-pago-completo/paypal", // Para citas con deuda completa (100%)
+    PAYPAL_ORDER: "/Pagos/paypal/create-order",
+    PAYPAL_CAPTURE: (orderId) => `/Pagos/paypal/capture/${orderId}`,
+    PAYPAL_BY_ORDER: (orderId) => `/Pagos/paypal/${orderId}`,
+    CANCELAR: (id) => `/Pagos/${id}/cancelar`,
   },
   CITAS_DIGITALES: {
     BASE: "/solicitudescitasdigitales",
